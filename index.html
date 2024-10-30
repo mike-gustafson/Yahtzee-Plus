@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yahtzee</title>
+    <link rel="stylesheet" href="style.css">
+    <script defer type="module" src="app.js"></script>
+</head>
+<body>
+    <h1>Yahtzee</h1>
+    <div id="game-container">
+        <div id="dice-container">
+            <h2>Dice</h2>
+            <div id="dice"></div>
+            <button id="roll-button">Roll</button>
+            <button id="next-turn-button" class="hidden">Next Turn</button>
+        </div>
+        <div id="scorecard-container">
+            <h2>Player 1 Scorecard</h2>
+            <div class="scorecard-columns">
+                <div class="upper-section">
+                    <h3>Upper Section</h3>
+                    <table>
+                        <tbody id="upper-scorecard"></tbody>
+                    </table>
+                </div>
+                <div class="lower-section">
+                    <h3>Lower Section</h3>
+                    <table>
+                        <tbody id="lower-scorecard"></tbody>
+                    </table>
+                </div>
+            </div>
+            <div id="total-score-container">
+                <table>
+                    <tbody id="total-scorecard"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
