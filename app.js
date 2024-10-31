@@ -31,7 +31,7 @@ const instructionGameOver = document.getElementById("instruction-game-over");
 const domStates = {
     gameStart: {
         display: [instructionStart, instructionHold, rollButton], 
-        hidden: [instructionScore, instructionGameOver, rollsLeft]},
+        hidden: [instructionScore, instructionGameOver, rollsLeft, newGameButton]},
     gamePlaying: {
         display: [instructionScore, instructionHold, rollsLeft, rollButton],
         hidden: [instructionStart, instructionGameOver]},
@@ -51,6 +51,8 @@ nextTurnButton.addEventListener('click', nextTurn);
 // Game logic
 function rollDice() {
     if (rerolls > 0) {
+        scoreSelected = false;
+        renderScorecard();
         dice = dice.map(die => die.held ? die : { ...die, value: Math.floor(Math.random() * die.sides) + 1 });
         roll = dice.map(die => (die.value));
         rerolls--;
@@ -71,8 +73,6 @@ function nextTurn() {
         dice = dice.map(die => ({ ...die, value: null, held: false }));
         changeDomState(domStates.gamePlaying);
         renderDice();
-    } else {
-        alert("Please select a score before continuing.");
     }
 }
 
@@ -105,7 +105,6 @@ function renderDice() {
 
 function calculateScore(row, section) {
     if (scorecard[section][row.id].hasBeenScored) {
-        alert("There's already a score for this, select another.");
         return;
     }
     const score = scorecard[section][row.id].formula(roll);
@@ -149,8 +148,10 @@ function renderScorecardSection(tableName, sectionName) {
         row.setAttribute('id', value.id);
         if (value.hasBeenScored === true) {
             row.classList.add("scored");
-        } else {
+        } else if (!scoreSelected){
             row.addEventListener('click', () => calculateScore(row, sectionName));
+        } else{
+            row.classList.add("disabled");
         }
         row.innerHTML = `
             <td class="score-name">${value.name}</td>
@@ -184,7 +185,6 @@ function init() {
 // Game over
 function gameOver() {
     changeDomState(domStates.gameOver);
-    alert(`Game over! Your final score is ${scorecard.totalScore.value}`);
 }
 
 // Change the state of the DOM elements
