@@ -1,18 +1,14 @@
 import scorecardDefault from "./js/scorecardDefault.js";
+import  * as diceDefaults from "./js/diceDefaults.js";
 
 const scorecard = scorecardDefault;
-const d6Default = {
-    sides: 6,
-    values: [1, 2, 3, 4, 5, 6],
-    held: false,
-    value: null
-};
+const d6 = diceDefaults.d6Default;
 
 let scoreSelected = false;
 const defaultMaxRerolls = 3;
 const maxRerolls = defaultMaxRerolls;
 let rerolls = maxRerolls;
-const startingDice = Array(5).fill().map(() => ({ ...d6Default }));
+const startingDice = Array(5).fill().map(() => ({ ...d6 }));
 
 let dice;
 let roll = [1,2,3,4,5];
