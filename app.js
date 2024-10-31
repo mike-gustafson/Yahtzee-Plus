@@ -30,8 +30,8 @@ const instructionGameOver = document.getElementById("instruction-game-over");
 
 const domStates = {
     gameStart: {
-        display: [instructionStart, instructionHold, rollButton], 
-        hidden: [instructionScore, instructionGameOver, rollsLeft, newGameButton]},
+        display: [instructionStart, rollButton], 
+        hidden: [instructionScore, instructionHold, instructionGameOver, rollsLeft, newGameButton]},
     gamePlaying: {
         display: [instructionScore, instructionHold, rollsLeft, rollButton],
         hidden: [instructionStart, instructionGameOver]},
@@ -40,7 +40,10 @@ const domStates = {
         hidden: [instructionStart, instructionHold, instructionScore, rollsLeft, rollButton]},
     outOfRerolls: {
         display: [instructionScore],
-        hidden: [instructionStart, rollsLeft, rollButton, instructionHold, instructionGameOver]}
+        hidden: [instructionStart, rollsLeft, rollButton, instructionHold, instructionGameOver]},
+    newTurn: {
+        display: [rollButton],
+        hidden: [instructionStart, instructionScore, instructionHold, instructionGameOver, rollsLeft, newGameButton]},
 }
 
 // Event listeners
@@ -51,6 +54,7 @@ nextTurnButton.addEventListener('click', nextTurn);
 // Game logic
 function rollDice() {
     if (rerolls > 0) {
+        changeDomState(domStates.gamePlaying);
         scoreSelected = false;
         renderScorecard();
         dice = dice.map(die => die.held ? die : { ...die, value: Math.floor(Math.random() * die.sides) + 1 });
@@ -71,7 +75,7 @@ function nextTurn() {
         rerolls = maxRerolls;
         scoreSelected = false;
         dice = dice.map(die => ({ ...die, value: null, held: false }));
-        changeDomState(domStates.gamePlaying);
+        changeDomState(domStates.newTurn);
         renderDice();
     }
 }
@@ -198,4 +202,4 @@ function changeDomState(state) {
 }
 
 // start the game on page load
-document.addEventListener("DOMContentLoaded", init());
+document.addEventListener("DOMContentLoaded", init);

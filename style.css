@@ -6,34 +6,6 @@
 --papaya-whip: #faedcdff;
 --buff: #d4a373ff;
 
-/* CSS HSL */
---tea-green: hsla(74, 32%, 76%, 1);
---beige: hsla(67, 50%, 86%, 1);
---cornsilk: hsla(52, 94%, 94%, 1);
---papaya-whip: hsla(43, 82%, 89%, 1);
---buff: hsla(30, 53%, 64%, 1);
-
-/* SCSS HEX */
-$tea-green: #ccd5aeff;
-$beige: #e9edc9ff;
-$cornsilk: #fefae0ff;
-$papaya-whip: #faedcdff;
-$buff: #d4a373ff;
-
-/* SCSS HSL */
-$tea-green: hsla(74, 32%, 76%, 1);
-$beige: hsla(67, 50%, 86%, 1);
-$cornsilk: hsla(52, 94%, 94%, 1);
-$papaya-whip: hsla(43, 82%, 89%, 1);
-$buff: hsla(30, 53%, 64%, 1);
-
-/* SCSS RGB */
-$tea-green: rgba(204, 213, 174, 1);
-$beige: rgba(233, 237, 201, 1);
-$cornsilk: rgba(254, 250, 224, 1);
-$papaya-whip: rgba(250, 237, 205, 1);
-$buff: rgba(212, 163, 115, 1);
-
 /* SCSS Gradient */
 --gradient-top: linear-gradient(0deg, #ccd5aeff, #e9edc9ff, #fefae0ff, #faedcdff, #d4a373ff);
 --gradient-right: linear-gradient(90deg, #ccd5aeff, #e9edc9ff, #fefae0ff, #faedcdff, #d4a373ff);
@@ -55,6 +27,7 @@ body {
     background-repeat: no-repeat;
     background-size: cover;
     height: 100vh;
+    background-attachment: fixed;
 }
 
 h1 {
@@ -67,7 +40,6 @@ h1 {
     border-top-left-radius: 25px;
     border-top-right-radius: 25px;
     margin-bottom: 0;
-
 }
 
 #game-container {
@@ -79,6 +51,7 @@ h1 {
     border: 10px solid var(--tea-green);
     border-radius: 8px;
     background-color: var(--buff);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
 }
 
 #dice-container {
@@ -94,7 +67,7 @@ h1 {
     padding: 20px;
     margin: 5px;
     border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
     align-items: center;
 }
 
