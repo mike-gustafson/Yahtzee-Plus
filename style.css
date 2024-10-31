@@ -125,6 +125,7 @@ tr:nth-child(even) {
 
 tr:hover {
     background-color: var(--tea-green);
+    cursor: pointer;
 }
 
 #total-score-container {
@@ -138,7 +139,7 @@ tr:hover {
     width: 50px;
     height: 50px;
     border: 3px solid black;
-    margin: 5px;
+    margin: 0 5px;
     text-align: center;
     line-height: 50px;
     font-size: 24px;
@@ -148,11 +149,12 @@ tr:hover {
 
 .die-with-value:hover {
     cursor: pointer;
-    background-color: red;
+    background-color: firebrick;
 }   
 
 .held {
-    background-color: red;
+    background-color: firebrick;
+    color: var(--papaya-whip)
 }
 
 .hidden {
@@ -206,4 +208,43 @@ tr:hover {
 
 .scored {
     color: red;
+}
+
+.instruction {
+    display: none;
+}
+
+button {
+    background-color: var(--tea-green);
+    color: var(--cornsilk);
+    border: none;
+    padding: 2px 40px;
+    margin: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 800;
+    font-size: 1.5rem;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+    border-style: outset;
+}
+
+button:hover {
+    background-color: var(--buff);
+    color: var(--tea-green);
+    border-style: inset;
+    text-shadow: none;
+}
+
+.score-value {
+    font-weight: 600;
+    font-size: 1.25rem;
+    width: 30px;
+    text-align: right;
+    padding-right: 10px;
+    border-right: 1px solid black;
+    border-left: 1px solid black;
+}
+.score-name {
+    width: 10em;
+
 }

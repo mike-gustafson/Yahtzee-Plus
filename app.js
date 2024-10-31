@@ -13,13 +13,21 @@ let scoreSelected = false;
 let maxRerolls = defaultMaxRerolls;
 
 // DOM elements
-const diceContainer = document.getElementById("dice");
 const rollButton = document.getElementById("roll-button");
+const diceContainer = document.getElementById("dice");
 const newGameButton = document.getElementById("new-game-button");
 const nextTurnButton = document.getElementById("next-turn-button");
 const upperScorecardTable = document.getElementById("upper-scorecard");
 const lowerScorecardTable = document.getElementById("lower-scorecard");
 const totalScorecardTable = document.getElementById("total-scorecard");
+
+const rollsLeft = document.getElementById("rolls-left");
+const rollsLeftValue = document.getElementById("rolls-left-value");
+
+const instructionHold = document.getElementById("instruction-hold");
+const instructionStart = document.getElementById("instruction-start");
+const instructionScore = document.getElementById("instruction-score");
+const instructionGameOver = document.getElementById("instruction-game-over");
 
 // Event listeners
 rollButton.addEventListener('click', rollDice);
@@ -29,12 +37,11 @@ nextTurnButton.addEventListener('click', nextTurn);
 // Game logic
 function nextTurn() {
     if (Object.values(scorecard.upperSection).every(row => row.hasBeenScored) && Object.values(scorecard.lowerSection).every(row => row.hasBeenScored)) {
-        newGameButton.classList.remove("hidden");
-        rollButton.classList.add("hidden");
-        return
+        gameOver()
     }
     if (scoreSelected) {
         rerolls = maxRerolls;
+        rollsLeftValue.innerText = rerolls;
         dice = dice.map(die => ({ ...die, value: null, held: false }));
         scoreSelected = false;
         nextTurnButton.classList.add("hidden");
@@ -45,14 +52,18 @@ function nextTurn() {
     }
 }
 
+
 function rollDice() {
     dice = dice.map(die => die.held ? die : { ...die, value: Math.floor(Math.random() * die.sides) + 1 });
     roll = dice.map(die => (die.value));
     rerolls--;
-    console.log(rerolls)
+    rollsLeftValue.innerText = rerolls;
     if (rerolls === 0) {
         nextTurnButton.classList.remove("hidden");
         rollButton.classList.add("hidden");
+        instructionStart.classList.remove("hidden");
+        rollsLeft.classList.add("hidden");
+        instractionsScore.classList.remove("hidden");
     }
     renderDice();
 }
@@ -107,6 +118,7 @@ function calculateTotalScore() {
     renderTotal();
 }
 
+// Reset scorecard on game start
 function resetScorecard() {
     for (const value of Object.values(scorecard.upperSection)) {
         value.value = 0;
@@ -119,14 +131,12 @@ function resetScorecard() {
     scorecard.totalScore.value = 0;
 }
 
-
 // Scorecard rendering
 function renderScorecard() {
     renderScorecardSection(upperScorecardTable, "upperSection");
     renderScorecardSection(lowerScorecardTable, "lowerSection");
     renderTotal();
 }
-
 function renderScorecardSection(tableName, sectionName) {
     tableName.innerHTML = "";
     for (const value of Object.values(scorecard[sectionName])) {
@@ -138,19 +148,18 @@ function renderScorecardSection(tableName, sectionName) {
             row.addEventListener('click', () => calculateScore(row, sectionName));
         }
         row.innerHTML = `
-            <td>${value.name}</td>
-            <td>${value.value}</td>
+            <td class="score-name">${value.name}</td>
+            <td class="score-value">${value.value}</td>
         `;
         tableName.appendChild(row);
     }
 }
-
 function renderTotal() {
     totalScorecardTable.innerHTML = "";
     const row = document.createElement("tr");
     row.innerHTML = `
-        <td>${scorecard.totalScore.name}</td>
-        <td>${scorecard.totalScore.value}</td>
+        <td class="score-name">${scorecard.totalScore.name}</td>
+        <td class="score-value">${scorecard.totalScore.value}</td>
     `;
     totalScorecardTable.appendChild(row);
 }
@@ -162,9 +171,18 @@ function init() {
     newGameButton.classList.add("hidden");
     rollButton.classList.remove("hidden");
     nextTurnButton.classList.add("hidden");
+    rollsLeftValue.innerText = rerolls;
+
     resetScorecard();
     renderDice();
     renderScorecard()
+}
+
+function gameOver() {
+    rollButton.classList.add("hidden");
+    nextTurnButton.classList.add("hidden");
+    newGameButton.classList.remove("hidden");
+    instructionGameOver.classList.remove("hidden");
 }
 
 // start the game on page load
