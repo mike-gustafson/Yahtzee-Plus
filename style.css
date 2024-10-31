@@ -210,9 +210,6 @@ tr:hover {
     color: red;
 }
 
-.instruction {
-    display: none;
-}
 
 button {
     background-color: var(--tea-green);

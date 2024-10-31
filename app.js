@@ -8,7 +8,7 @@ const defaultMaxRerolls = 3;
 
 let dice;
 let rerolls;
-let roll
+let roll = [];
 let scoreSelected = false;
 let maxRerolls = defaultMaxRerolls;
 
@@ -23,7 +23,6 @@ const totalScorecardTable = document.getElementById("total-scorecard");
 
 const rollsLeft = document.getElementById("rolls-left");
 const rollsLeftValue = document.getElementById("rolls-left-value");
-
 const instructionHold = document.getElementById("instruction-hold");
 const instructionStart = document.getElementById("instruction-start");
 const instructionScore = document.getElementById("instruction-score");
@@ -31,11 +30,11 @@ const instructionGameOver = document.getElementById("instruction-game-over");
 
 const domStates = {
     gameStart: {
-        display: [instructionStart, instructionHold], 
-        hidden: [instructionScore, instructionGameOver]},
+        display: [instructionStart, instructionHold, rollButton], 
+        hidden: [instructionScore, instructionGameOver, rollsLeft]},
     gamePlaying: {
-        display: [instructionScore, rollsLeft, rollButton],
-        hidden: [instructionStart, instructionHold, instructionGameOver]},
+        display: [instructionScore, instructionHold, rollsLeft, rollButton],
+        hidden: [instructionStart, instructionGameOver]},
     gameOver: {
         display: [instructionGameOver, newGameButton],
         hidden: [instructionStart, instructionHold, instructionScore, rollsLeft, rollButton]},
@@ -55,24 +54,21 @@ function rollDice() {
         dice = dice.map(die => die.held ? die : { ...die, value: Math.floor(Math.random() * die.sides) + 1 });
         roll = dice.map(die => (die.value));
         rerolls--;
-        rollsLeftValue.innerText = rerolls;
-        if (rerolls === 0) {
-            changeDomState(domStates.outOfRerolls);
-        }
         renderDice();
     }
 }
 
 function nextTurn() {
-    if (Object.values(scorecard.upperSection).every(row => row.hasBeenScored) && Object.values(scorecard.lowerSection).every(row => row.hasBeenScored)) {
+    const isUpperFilledOut = Object.values(scorecard.upperSection).every(row => row.hasBeenScored);
+    const isLowerFilledOut = Object.values(scorecard.lowerSection).every(row => row.hasBeenScored);
+    if (isUpperFilledOut && isLowerFilledOut) {
         gameOver();
         return;
     }
     if (scoreSelected) {
         rerolls = maxRerolls;
-        dice = dice.map(die => ({ ...die, value: null, held: false }));
         scoreSelected = false;
-        rollsLeftValue.innerText = rerolls;
+        dice = dice.map(die => ({ ...die, value: null, held: false }));
         changeDomState(domStates.gamePlaying);
         renderDice();
     } else {
@@ -82,6 +78,10 @@ function nextTurn() {
 
 function renderDice() {
     diceContainer.innerHTML = "";
+    rollsLeftValue.innerText = rerolls;
+    if (rerolls === 0) {
+        changeDomState(domStates.outOfRerolls);
+    }
     for (const die of dice) {
         const dieDiv = document.createElement("div");
         dieDiv.classList.add("die");
@@ -105,7 +105,7 @@ function renderDice() {
 
 function calculateScore(row, section) {
     if (scorecard[section][row.id].hasBeenScored) {
-        alert("This row has already been scored.");
+        alert("There's already a score for this, select another.");
         return;
     }
     const score = scorecard[section][row.id].formula(roll);
@@ -181,18 +181,19 @@ function init() {
     dice = [...defaultDice];
     rerolls = maxRerolls;
     rollsLeftValue.innerText = rerolls;
-
     changeDomState(domStates.gameStart);
     resetScorecard();
     renderDice();
     renderScorecard()
 }
 
+// Game over
 function gameOver() {
     changeDomState(domStates.gameOver);
     alert(`Game over! Your final score is ${scorecard.totalScore.value}`);
 }
 
+// Change the state of the DOM elements
 function changeDomState(state) {
     for (const element of state.display) {
         element.classList.remove("hidden");
@@ -201,6 +202,6 @@ function changeDomState(state) {
         element.classList.add("hidden");
     }
 }
-// start the game on page load
 
-init();
+// start the game on page load
+document.addEventListener("DOMContentLoaded", init());
