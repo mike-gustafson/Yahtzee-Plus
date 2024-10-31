@@ -1,44 +1,106 @@
+* {
+/* CSS HEX */
+--tea-green: #ccd5aeff;
+--beige: #e9edc9ff;
+--cornsilk: #fefae0ff;
+--papaya-whip: #faedcdff;
+--buff: #d4a373ff;
+
+/* CSS HSL */
+--tea-green: hsla(74, 32%, 76%, 1);
+--beige: hsla(67, 50%, 86%, 1);
+--cornsilk: hsla(52, 94%, 94%, 1);
+--papaya-whip: hsla(43, 82%, 89%, 1);
+--buff: hsla(30, 53%, 64%, 1);
+
+/* SCSS HEX */
+$tea-green: #ccd5aeff;
+$beige: #e9edc9ff;
+$cornsilk: #fefae0ff;
+$papaya-whip: #faedcdff;
+$buff: #d4a373ff;
+
+/* SCSS HSL */
+$tea-green: hsla(74, 32%, 76%, 1);
+$beige: hsla(67, 50%, 86%, 1);
+$cornsilk: hsla(52, 94%, 94%, 1);
+$papaya-whip: hsla(43, 82%, 89%, 1);
+$buff: hsla(30, 53%, 64%, 1);
+
+/* SCSS RGB */
+$tea-green: rgba(204, 213, 174, 1);
+$beige: rgba(233, 237, 201, 1);
+$cornsilk: rgba(254, 250, 224, 1);
+$papaya-whip: rgba(250, 237, 205, 1);
+$buff: rgba(212, 163, 115, 1);
+
+/* SCSS Gradient */
+--gradient-top: linear-gradient(0deg, #ccd5aeff, #e9edc9ff, #fefae0ff, #faedcdff, #d4a373ff);
+--gradient-right: linear-gradient(90deg, #ccd5aeff, #e9edc9ff, #fefae0ff, #faedcdff, #d4a373ff);
+--gradient-bottom: linear-gradient(180deg, #ccd5aeff, #e9edc9ff, #fefae0ff, #faedcdff, #d4a373ff);
+--gradient-left: linear-gradient(270deg, #ccd5aeff, #e9edc9ff, #fefae0ff, #faedcdff, #d4a373ff);
+--gradient-top-right: linear-gradient(45deg, #ccd5aeff, #e9edc9ff, #fefae0ff, #faedcdff, #d4a373ff);
+--gradient-bottom-right: linear-gradient(135deg, #ccd5aeff, #e9edc9ff, #fefae0ff, #faedcdff, #d4a373ff);
+--gradient-top-left: linear-gradient(225deg, #ccd5aeff, #e9edc9ff, #fefae0ff, #faedcdff, #d4a373ff);
+--gradient-bottom-left: linear-gradient(315deg, #ccd5aeff, #e9edc9ff, #fefae0ff, #faedcdff, #d4a373ff);
+--gradient-radial: radial-gradient(#ccd5aeff, #e9edc9ff, #fefae0ff, #faedcdff, #d4a373ff);
+}
 body {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
     font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
     margin: 0;
-    padding: 20px;
-
+    background-image: var(--gradient-radial);
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100vh;
 }
 
 h1 {
     text-align: center;
-    width: 100vw;
+    width: fit-content;
+    font-size: 3rem;
+    background-color: var(--tea-green);
+    color: var(--selective-yellow);
+    padding: 10px;
+    border-top-left-radius: 25px;
+    border-top-right-radius: 25px;
+    margin-bottom: 0;
+
 }
 
 #game-container {
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
-    width: 90vw;
+    justify-content: space-evenly;
+    width: fit-content;
+    padding: 10px;
+    border: 10px solid var(--tea-green);
+    border-radius: 8px;
+    background-color: var(--buff);
 }
 
 #dice-container {
-    display: flex;
-    flex-direction: column;
-    align-items: right;
+    max-width: 30vw;
+    min-width: 350px;
 }
 
+#dice-container,
 #scorecard-container {
-    max-width: 30vw;
-    background: white;
-    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    background: var(--cornsilk);
+    padding: 20px;
+    margin: 5px;
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    align-items: center;
 }
 
 .scorecard-columns {
+    width: 30rem;
     display: flex;
-    justify-content: space-between;
     margin-bottom: 0;
 }
 
@@ -57,22 +119,18 @@ th, td {
     text-align: left;
 }
 
-th {
-    background-color: #4CAF50;
-    color: white;
-}
-
 tr:nth-child(even) {
-    background-color: #f2f2f2;
+    background-color: var(--papaya-whip);
 }
 
 tr:hover {
-    background-color: #ddd;
+    background-color: var(--tea-green);
 }
 
 #total-score-container {
     margin-top: 10px;
     border-top: 2px solid black;
+    width: 50%;
 }
 
 .die {
@@ -85,7 +143,7 @@ tr:hover {
     line-height: 50px;
     font-size: 24px;
     border-radius: 5px;
-    background-color: white;
+    background-color: var(--papaya-whip);
 }
 
 .die:hover {
@@ -99,4 +157,49 @@ tr:hover {
 
 .hidden {
     display: none;
+}
+
+@media (max-width: 1028px) {
+    #game-container {
+        flex-direction: column;
+    }
+
+    #dice-container {
+        max-width: 90vw;
+    }
+
+    #scorecard-container {
+        margin-top: 20px;
+    }
+
+    .scorecard-columns {
+        width: 100%;
+    }
+
+    .upper-section,
+    .lower-section {
+        width: 100%;
+    }
+}
+
+@media (max-width: 390px) {
+    body {
+        padding: 0;
+    }   
+    #game-container {
+        width: 100%;
+        margin: 0;
+    }
+    .die {
+        margin: 4px;
+    }
+}
+
+@media (max-width: 344px) {
+    .die {
+        width: 40px;
+        height: 40px;
+        line-height: 40px;
+        font-size: 20px;
+    }
 }

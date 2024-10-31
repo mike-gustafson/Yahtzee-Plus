@@ -27,7 +27,8 @@ function nextTurn() {
     rerolls = maxRerolls;
     rollButton.disabled = false;
     dice = [...startingDice];
-    nextTurnButton.classList.add("hidden");
+    nextTurnButton.classList.toggle("hidden");
+    rollButton.classList.toggle("hidden");
     rollDice();
     renderDice();
 }
@@ -56,7 +57,8 @@ function rollDice() {
     rerolls--;
     if (rerolls === 0) {
         rollButton.disabled = true;
-        nextTurnButton.classList.remove("hidden");
+        nextTurnButton.classList.toggle("hidden");
+        rollButton.classList.toggle("hidden");
     }
 }
 
