@@ -8,7 +8,7 @@ const defaultMaxRerolls = 3;
 
 let dice;
 let rerolls;
-let roll = [1,2,3,4,5];
+let roll
 let scoreSelected = false;
 let maxRerolls = defaultMaxRerolls;
 
@@ -22,7 +22,7 @@ const lowerScorecardTable = document.getElementById("lower-scorecard");
 const totalScorecardTable = document.getElementById("total-scorecard");
 
 // Event listeners
-rollButton.addEventListener('click', () => {rollDice(); renderDice();});
+rollButton.addEventListener('click', rollDice);
 newGameButton.addEventListener('click', init);
 nextTurnButton.addEventListener('click', nextTurn);
 
@@ -43,6 +43,18 @@ function nextTurn() {
     } else {
         alert("Please select a score before continuing.");
     }
+}
+
+function rollDice() {
+    dice = dice.map(die => die.held ? die : { ...die, value: Math.floor(Math.random() * die.sides) + 1 });
+    roll = dice.map(die => (die.value));
+    rerolls--;
+    console.log(rerolls)
+    if (rerolls === 0) {
+        nextTurnButton.classList.remove("hidden");
+        rollButton.classList.add("hidden");
+    }
+    renderDice();
 }
 
 function renderDice() {
@@ -68,17 +80,6 @@ function renderDice() {
     }
 }
 
-function rollDice() {
-    dice = dice.map(die => die.held ? die : { ...die, value: Math.floor(Math.random() * die.sides) + 1 });
-    roll = dice.map(die => (die.value));
-    rerolls--;
-    if (rerolls === 0) {
-        nextTurnButton.classList.remove("hidden");
-        rollButton.classList.add("hidden");
-    }
-}
-
-
 function calculateScore(row, section) {
     if (scorecard[section][row.id].hasBeenScored) {
         alert("This row has already been scored.");
@@ -89,19 +90,13 @@ function calculateScore(row, section) {
     setScore(section, key, score);
 }
 
-
-
-
 function setScore(section, key, score) {
     if (scorecard[section][key]) {
         scoreSelected = true;
         scorecard[section][key].value = score;
-        renderUpperScorecard();
-        renderLowerScorecard();
+        renderScorecard();
         calculateTotalScore();
         nextTurn();
-    } else {
-        console.error("Invalid section or key.");
     }
 }
 
@@ -109,7 +104,7 @@ function calculateTotalScore() {
     let upperTotal = Object.values(scorecard.upperSection).reduce((sum, item) => sum + item.value, 0);
     let lowerTotal = Object.values(scorecard.lowerSection).reduce((sum, item) => sum + item.value, 0);
     scorecard.totalScore.value = upperTotal + lowerTotal;
-    renderTotalScorecard();
+    renderTotal();
 }
 
 function resetScorecard() {
@@ -126,36 +121,31 @@ function resetScorecard() {
 
 
 // Scorecard rendering
+function renderScorecard() {
+    renderScorecardSection(upperScorecardTable, "upperSection");
+    renderScorecardSection(lowerScorecardTable, "lowerSection");
+    renderTotal();
+}
 
-function renderUpperScorecard() {
-    upperScorecardTable.innerHTML = "";
-    for (const value of Object.values(scorecard.upperSection)) {
+function renderScorecardSection(tableName, sectionName) {
+    tableName.innerHTML = "";
+    for (const value of Object.values(scorecard[sectionName])) {
         const row = document.createElement("tr");
-        row.addEventListener('click', () => calculateScore(row, "upperSection"));
         row.setAttribute('id', value.id);
+        if (value.hasBeenScored) {
+            row.classList.add("scored");
+        } else {
+            row.addEventListener('click', () => calculateScore(row, sectionName));
+        }
         row.innerHTML = `
             <td>${value.name}</td>
             <td>${value.value}</td>
         `;
-        upperScorecardTable.appendChild(row);
+        tableName.appendChild(row);
     }
 }
 
-function renderLowerScorecard() {
-    lowerScorecardTable.innerHTML = "";
-    for (const value of Object.values(scorecard.lowerSection)) {
-        const row = document.createElement("tr");
-        row.addEventListener('click', () => calculateScore(row, 'lowerSection'));
-        row.setAttribute('id', value.id);
-        row.innerHTML = `
-            <td>${value.name}</td>
-            <td>${value.value}</td>
-        `;
-        lowerScorecardTable.appendChild(row);
-    }
-}
-
-function renderTotalScorecard() {
+function renderTotal() {
     totalScorecardTable.innerHTML = "";
     const row = document.createElement("tr");
     row.innerHTML = `
@@ -166,18 +156,15 @@ function renderTotalScorecard() {
 }
 
 // Game initialization
-
 function init() {
     dice = [...defaultDice];
     rerolls = maxRerolls;
-    newGameButton.setAttribute("style", "display: none");
-    rollButton.setAttribute("style", "display: block");
+    newGameButton.classList.add("hidden");
+    rollButton.classList.remove("hidden");
     nextTurnButton.classList.add("hidden");
     resetScorecard();
     renderDice();
-    renderUpperScorecard();
-    renderLowerScorecard();
-    renderTotalScorecard();
+    renderScorecard()
 }
 
 // start the game on page load
