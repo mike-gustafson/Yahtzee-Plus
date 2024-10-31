@@ -54,13 +54,13 @@ nextTurnButton.addEventListener('click', nextTurn);
 // Game logic
 function rollDice() {
     if (rerolls > 0) {
-        changeDomState(domStates.gamePlaying);
         scoreSelected = false;
-        renderScorecard();
         dice = dice.map(die => die.held ? die : { ...die, value: Math.floor(Math.random() * die.sides) + 1 });
         roll = dice.map(die => (die.value));
         rerolls--;
         renderDice();
+        renderScorecard();
+        changeDomState(domStates.gamePlaying);
     }
 }
 
@@ -186,11 +186,6 @@ function init() {
     renderScorecard()
 }
 
-// Game over
-function gameOver() {
-    changeDomState(domStates.gameOver);
-}
-
 // Change the state of the DOM elements
 function changeDomState(state) {
     for (const element of state.display) {
@@ -199,6 +194,11 @@ function changeDomState(state) {
     for (const element of state.hidden) {
         element.classList.add("hidden");
     }
+}
+
+// Game over
+function gameOver() {
+    changeDomState(domStates.gameOver);
 }
 
 // start the game on page load
