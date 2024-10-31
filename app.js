@@ -117,17 +117,10 @@ function setScore(section, key, score) {
     if (scorecard[section][key]) {
         scoreSelected = true;
         scorecard[section][key].value = score;
+        scorecard[section][key].hasBeenScored = true;
         renderScorecard();
-        calculateTotalScore();
         nextTurn();
     }
-}
-
-function calculateTotalScore() {
-    let upperTotal = Object.values(scorecard.upperSection).reduce((sum, item) => sum + item.value, 0);
-    let lowerTotal = Object.values(scorecard.lowerSection).reduce((sum, item) => sum + item.value, 0);
-    scorecard.totalScore.value = upperTotal + lowerTotal;
-    renderTotal();
 }
 
 // Reset scorecard on game start
@@ -154,7 +147,7 @@ function renderScorecardSection(tableName, sectionName) {
     for (const value of Object.values(scorecard[sectionName])) {
         const row = document.createElement("tr");
         row.setAttribute('id', value.id);
-        if (value.hasBeenScored) {
+        if (value.hasBeenScored === true) {
             row.classList.add("scored");
         } else {
             row.addEventListener('click', () => calculateScore(row, sectionName));
@@ -167,6 +160,7 @@ function renderScorecardSection(tableName, sectionName) {
     }
 }
 function renderTotal() {
+    scorecard.calculateTotalScore();
     totalScorecardTable.innerHTML = "";
     const row = document.createElement("tr");
     row.innerHTML = `

@@ -177,6 +177,9 @@ const defaultScorecard = {
         },
     },
     totalScore: { name: 'Total Score', value: 0 },
+    calculateTotalScore: function() {
+        this.totalScore.value = Object.values(this.upperSection).reduce((sum, item) => sum + item.value, 0) + Object.values(this.lowerSection).reduce((sum, item) => sum + item.value, 0);
+    }
 };
 
 export default defaultScorecard;
