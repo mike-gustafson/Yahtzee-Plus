@@ -29,43 +29,55 @@ const instructionStart = document.getElementById("instruction-start");
 const instructionScore = document.getElementById("instruction-score");
 const instructionGameOver = document.getElementById("instruction-game-over");
 
+const domStates = {
+    gameStart: {
+        display: [instructionStart, instructionHold], 
+        hidden: [instructionScore, instructionGameOver]},
+    gamePlaying: {
+        display: [instructionScore, rollsLeft, rollButton],
+        hidden: [instructionStart, instructionHold, instructionGameOver]},
+    gameOver: {
+        display: [instructionGameOver, newGameButton],
+        hidden: [instructionStart, instructionHold, instructionScore, rollsLeft, rollButton]},
+    outOfRerolls: {
+        display: [instructionScore],
+        hidden: [instructionStart, rollsLeft, rollButton, instructionHold, instructionGameOver]}
+}
+
 // Event listeners
 rollButton.addEventListener('click', rollDice);
 newGameButton.addEventListener('click', init);
 nextTurnButton.addEventListener('click', nextTurn);
 
 // Game logic
+function rollDice() {
+    if (rerolls > 0) {
+        dice = dice.map(die => die.held ? die : { ...die, value: Math.floor(Math.random() * die.sides) + 1 });
+        roll = dice.map(die => (die.value));
+        rerolls--;
+        rollsLeftValue.innerText = rerolls;
+        if (rerolls === 0) {
+            changeDomState(domStates.outOfRerolls);
+        }
+        renderDice();
+    }
+}
+
 function nextTurn() {
     if (Object.values(scorecard.upperSection).every(row => row.hasBeenScored) && Object.values(scorecard.lowerSection).every(row => row.hasBeenScored)) {
-        gameOver()
+        gameOver();
+        return;
     }
     if (scoreSelected) {
         rerolls = maxRerolls;
-        rollsLeftValue.innerText = rerolls;
         dice = dice.map(die => ({ ...die, value: null, held: false }));
         scoreSelected = false;
-        nextTurnButton.classList.add("hidden");
-        rollButton.classList.remove("hidden");
+        rollsLeftValue.innerText = rerolls;
+        changeDomState(domStates.gamePlaying);
         renderDice();
     } else {
         alert("Please select a score before continuing.");
     }
-}
-
-
-function rollDice() {
-    dice = dice.map(die => die.held ? die : { ...die, value: Math.floor(Math.random() * die.sides) + 1 });
-    roll = dice.map(die => (die.value));
-    rerolls--;
-    rollsLeftValue.innerText = rerolls;
-    if (rerolls === 0) {
-        nextTurnButton.classList.remove("hidden");
-        rollButton.classList.add("hidden");
-        instructionStart.classList.remove("hidden");
-        rollsLeft.classList.add("hidden");
-        instractionsScore.classList.remove("hidden");
-    }
-    renderDice();
 }
 
 function renderDice() {
@@ -168,23 +180,27 @@ function renderTotal() {
 function init() {
     dice = [...defaultDice];
     rerolls = maxRerolls;
-    newGameButton.classList.add("hidden");
-    rollButton.classList.remove("hidden");
-    nextTurnButton.classList.add("hidden");
     rollsLeftValue.innerText = rerolls;
 
+    changeDomState(domStates.gameStart);
     resetScorecard();
     renderDice();
     renderScorecard()
 }
 
 function gameOver() {
-    rollButton.classList.add("hidden");
-    nextTurnButton.classList.add("hidden");
-    newGameButton.classList.remove("hidden");
-    instructionGameOver.classList.remove("hidden");
+    changeDomState(domStates.gameOver);
+    alert(`Game over! Your final score is ${scorecard.totalScore.value}`);
 }
 
+function changeDomState(state) {
+    for (const element of state.display) {
+        element.classList.remove("hidden");
+    }
+    for (const element of state.hidden) {
+        element.classList.add("hidden");
+    }
+}
 // start the game on page load
 
 init();
