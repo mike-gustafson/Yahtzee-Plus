@@ -1,23 +1,22 @@
+import * as diceDefaults from "./js/diceDefaults.js";
 import scorecardDefault from "./js/scorecardDefault.js";
-import  * as diceDefaults from "./js/diceDefaults.js";
 
+// Constants
 const scorecard = scorecardDefault;
-const d6 = diceDefaults.d6Default;
-
-let scoreSelected = false;
+const defaultDice = Array(5).fill().map(() => ({ ...diceDefaults.d6Default }));
 const defaultMaxRerolls = 3;
-const maxRerolls = defaultMaxRerolls;
-let rerolls = maxRerolls;
-const startingDice = Array(5).fill().map(() => ({ ...d6 }));
 
 let dice;
+let rerolls;
 let roll = [1,2,3,4,5];
+let scoreSelected = false;
+let maxRerolls = defaultMaxRerolls;
 
 // DOM elements
 const diceContainer = document.getElementById("dice");
 const rollButton = document.getElementById("roll-button");
-const nextTurnButton = document.getElementById("next-turn-button");
 const newGameButton = document.getElementById("new-game-button");
+const nextTurnButton = document.getElementById("next-turn-button");
 const upperScorecardTable = document.getElementById("upper-scorecard");
 const lowerScorecardTable = document.getElementById("lower-scorecard");
 const totalScorecardTable = document.getElementById("total-scorecard");
@@ -27,6 +26,7 @@ rollButton.addEventListener('click', () => {rollDice(); renderDice();});
 newGameButton.addEventListener('click', init);
 nextTurnButton.addEventListener('click', nextTurn);
 
+// Game logic
 function nextTurn() {
     if (Object.values(scorecard.upperSection).every(row => row.hasBeenScored) && Object.values(scorecard.lowerSection).every(row => row.hasBeenScored)) {
         newGameButton.classList.remove("hidden");
@@ -35,7 +35,7 @@ function nextTurn() {
     }
     if (scoreSelected) {
         rerolls = maxRerolls;
-        dice = [...startingDice];
+        dice = dice.map(die => ({ ...die, value: null, held: false }));
         scoreSelected = false;
         nextTurnButton.classList.add("hidden");
         rollButton.classList.remove("hidden");
@@ -168,7 +168,8 @@ function renderTotalScorecard() {
 // Game initialization
 
 function init() {
-    dice = [...startingDice];
+    dice = [...defaultDice];
+    rerolls = maxRerolls;
     newGameButton.setAttribute("style", "display: none");
     rollButton.setAttribute("style", "display: block");
     nextTurnButton.classList.add("hidden");
