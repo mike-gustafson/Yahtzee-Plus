@@ -8,12 +8,12 @@ const d6Default = {
     held: false,
     value: null
 };
-
+let scoreSelected = false;
 const defaultMaxRerolls = 3;
 const maxRerolls = defaultMaxRerolls;
 let rerolls = maxRerolls;
 const startingDice = Array(5).fill().map(() => ({ ...d6Default }));
-let dice = [...startingDice];
+let dice;
 let roll = [1,2,3,4,5];
 const diceContainer = document.getElementById("dice");
 
@@ -23,14 +23,28 @@ rollButton.addEventListener('click', () => {rollDice(); renderDice();});
 const nextTurnButton = document.getElementById("next-turn-button");
 nextTurnButton.addEventListener('click', nextTurn);
 
+const newGameButton = document.getElementById("new-game-button");
+newGameButton.addEventListener('click', init);
+
 function nextTurn() {
-    rerolls = maxRerolls;
-    rollButton.disabled = false;
-    dice = [...startingDice];
-    nextTurnButton.classList.toggle("hidden");
-    rollButton.classList.toggle("hidden");
-    rollDice();
-    renderDice();
+    if (Object.values(scorecard.upperSection).every(row => row.hasBeenScored) && Object.values(scorecard.lowerSection).every(row => row.hasBeenScored)) {
+        alert("Game over!");
+        newGameButton.setAttribute("style", "display: block");
+        rollButton.setAttribute("style", "display: none");
+        return
+    }
+    if (scoreSelected) {
+        rerolls = maxRerolls;
+        rollButton.disabled = false;
+        dice = [...startingDice];
+        scoreSelected = false;
+        nextTurnButton.classList.toggle("hidden");
+        rollButton.classList.toggle("hidden");
+        rollDice();
+        renderDice();
+    } else {
+        alert("Please select a score before continuing.");
+    }
 }
 
 function renderDice() {
@@ -56,7 +70,6 @@ function rollDice() {
     roll = dice.map(die => (die.value));
     rerolls--;
     if (rerolls === 0) {
-        rollButton.disabled = true;
         nextTurnButton.classList.toggle("hidden");
         rollButton.classList.toggle("hidden");
     }
@@ -64,6 +77,10 @@ function rollDice() {
 
 
 function calculateScore(row, section) {
+    if (scorecard[section][row.id].hasBeenScored) {
+        alert("This row has already been scored.");
+        return;
+    }
     const score = scorecard[section][row.id].formula(roll);
     const key = row.id;
     setScore(section, key, score);
@@ -114,6 +131,7 @@ function renderTotalScorecard() {
 
 function setScore(section, key, score) {
     if (scorecard[section][key]) {
+        scoreSelected = true;
         scorecard[section][key].value = score;
         renderUpperScorecard();
         renderLowerScorecard();
@@ -131,7 +149,26 @@ function calculateTotalScore() {
     renderTotalScorecard();
 }
 
-renderUpperScorecard();
-renderLowerScorecard();
-renderTotalScorecard();
+function resetScorecard() {
+    for (const value of Object.values(scorecard.upperSection)) {
+        value.value = 0;
+        value.hasBeenScored = false;
+    }
+    for (const value of Object.values(scorecard.lowerSection)) {
+        value.value = 0;
+        value.hasBeenScored = false;
+    }
+    scorecard.totalScore.value = 0;
+}
+
+function init() {
+    dice = [...startingDice];
+    resetScorecard();
+    renderDice();
+    renderUpperScorecard();
+    renderLowerScorecard();
+    renderTotalScorecard();
+}
+
+init();
 

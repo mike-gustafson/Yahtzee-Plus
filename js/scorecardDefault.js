@@ -4,7 +4,9 @@ const defaultScorecard = {
             id: 'ones',
             name: 'Ones',
             value: 0,
+            hasBeenScored: false,
             formula: function(dice) {
+                this.hasBeenScored = true;
                 return dice.filter(num => num === 1).length;
             }
         },
@@ -12,7 +14,9 @@ const defaultScorecard = {
             id: 'twos',
             name: 'Twos',
             value: 0,
+            hasBeenScored: false,
             formula: function(dice) {
+                this.hasBeenScored = true;
                 return dice.filter(num => num === 2).length * 2;
             }
         },
@@ -20,7 +24,9 @@ const defaultScorecard = {
             id: 'threes',
             name: 'Threes',
             value: 0,
+            hasBeenScored: false,
             formula: function(dice) {
+                this.hasBeenScored = true;
                 return dice.filter(num => num === 3).length * 3;
             }
         },
@@ -28,7 +34,9 @@ const defaultScorecard = {
             id: 'fours',
             name: 'Fours',
             value: 0,
+            hasBeenScored: false,
             formula: function(dice) {
+                this.hasBeenScored = true;
                 return dice.filter(num => num === 4).length * 4;
             }
         },
@@ -36,7 +44,9 @@ const defaultScorecard = {
             id: 'fives',
             name: 'Fives',
             value: 0,
+            hasBeenScored: false,
             formula: function(dice) {
+                this.hasBeenScored = true;
                 return dice.filter(num => num === 5).length * 5;
             }
         },
@@ -44,7 +54,9 @@ const defaultScorecard = {
             id: 'sixes',
             name: 'Sixes',
             value: 0,
+            hasBeenScored: false,
             formula: function(dice) {
+                this.hasBeenScored = true;
                 return dice.filter(num => num === 6).length * 6;
             }
         },
@@ -54,7 +66,9 @@ const defaultScorecard = {
             id: 'threeOfAKind',
             name: 'Three of a Kind',
             value: 0,
+            hasBeenScored: false,
             formula: function(dice) {
+                this.hasBeenScored = true;
                 const counts = {};
                 for (const die of dice) {
                     counts[die] = (counts[die] || 0) + 1;
@@ -71,7 +85,9 @@ const defaultScorecard = {
             id: 'fourOfAKind',
             name: 'Four of a Kind',
             value: 0,
+            hasBeenScored: false,
             formula: function(dice) {
+                this.hasBeenScored = true;
                 const counts = {};
                 for (const die of dice) {
                     counts[die] = (counts[die] || 0) + 1;
@@ -88,7 +104,9 @@ const defaultScorecard = {
             id: 'fullHouse',
             name: 'Full House',
             value: 0,
+            hasBeenScored: false,
             formula: function(dice) {
+                this.hasBeenScored = true;
                 const counts = {};
                 for (const die of dice) {
                     counts[die] = (counts[die] || 0) + 1;
@@ -102,7 +120,9 @@ const defaultScorecard = {
             id: 'smallStraight',
             name: 'Small Straight',
             value: 0,
+            hasBeenScored: false,
             formula: function(dice) {
+                this.hasBeenScored = true;
                 const uniqueDice = [...new Set(dice)];
                 const smallStraightPatterns = [[1, 2, 3, 4], [2, 3, 4, 5], [3, 4, 5, 6]];
                 for (const pattern of smallStraightPatterns) {
@@ -117,7 +137,9 @@ const defaultScorecard = {
             id: 'largeStraight',
             name: 'Large Straight',
             value: 0,
+            hasBeenScored: false,
             formula: function(dice) {
+                this.hasBeenScored = true;
                 const uniqueDice = [...new Set(dice)];
                 if (uniqueDice.length === 5 && (uniqueDice.includes(1) && uniqueDice.includes(2) && uniqueDice.includes(3) && uniqueDice.includes(4) && uniqueDice.includes(5) || 
                     uniqueDice.includes(2) && uniqueDice.includes(3) && uniqueDice.includes(4) && uniqueDice.includes(5) && uniqueDice.includes(6))) {
@@ -130,7 +152,9 @@ const defaultScorecard = {
             id: 'yahtzee',
             name: 'Yahtzee',
             value: 0,
+            hasBeenScored: false,
             formula: function(dice) {
+                this.hasBeenScored = true;
                 const counts = {};
                 for (const die of dice) {
                     counts[die] = (counts[die] || 0) + 1;
@@ -145,7 +169,9 @@ const defaultScorecard = {
             id: 'chance',
             name: 'Chance',
             value: 0,
+            hasBeenScored: false,
             formula: function(dice) {
+                this.hasBeenScored = true;
                 return dice.reduce((sum, num) => sum + num, 0);
             }
         },
