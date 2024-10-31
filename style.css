@@ -146,7 +146,7 @@ tr:hover {
     background-color: var(--papaya-whip);
 }
 
-.die:hover {
+.die-with-value:hover {
     cursor: pointer;
     background-color: red;
 }   

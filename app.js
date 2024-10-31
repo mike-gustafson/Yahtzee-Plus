@@ -1,46 +1,48 @@
 import scorecardDefault from "./js/scorecardDefault.js";
 
 const scorecard = scorecardDefault;
-
 const d6Default = {
     sides: 6,
     values: [1, 2, 3, 4, 5, 6],
     held: false,
     value: null
 };
+
 let scoreSelected = false;
 const defaultMaxRerolls = 3;
 const maxRerolls = defaultMaxRerolls;
 let rerolls = maxRerolls;
 const startingDice = Array(5).fill().map(() => ({ ...d6Default }));
+
 let dice;
 let roll = [1,2,3,4,5];
+
+// DOM elements
 const diceContainer = document.getElementById("dice");
-
 const rollButton = document.getElementById("roll-button");
-rollButton.addEventListener('click', () => {rollDice(); renderDice();});
-
 const nextTurnButton = document.getElementById("next-turn-button");
-nextTurnButton.addEventListener('click', nextTurn);
-
 const newGameButton = document.getElementById("new-game-button");
+const upperScorecardTable = document.getElementById("upper-scorecard");
+const lowerScorecardTable = document.getElementById("lower-scorecard");
+const totalScorecardTable = document.getElementById("total-scorecard");
+
+// Event listeners
+rollButton.addEventListener('click', () => {rollDice(); renderDice();});
 newGameButton.addEventListener('click', init);
+nextTurnButton.addEventListener('click', nextTurn);
 
 function nextTurn() {
     if (Object.values(scorecard.upperSection).every(row => row.hasBeenScored) && Object.values(scorecard.lowerSection).every(row => row.hasBeenScored)) {
-        alert("Game over!");
-        newGameButton.setAttribute("style", "display: block");
-        rollButton.setAttribute("style", "display: none");
+        newGameButton.classList.remove("hidden");
+        rollButton.classList.add("hidden");
         return
     }
     if (scoreSelected) {
         rerolls = maxRerolls;
-        rollButton.disabled = false;
         dice = [...startingDice];
         scoreSelected = false;
-        nextTurnButton.classList.toggle("hidden");
-        rollButton.classList.toggle("hidden");
-        rollDice();
+        nextTurnButton.classList.add("hidden");
+        rollButton.classList.remove("hidden");
         renderDice();
     } else {
         alert("Please select a score before continuing.");
@@ -56,11 +58,16 @@ function renderDice() {
             dieDiv.classList.add("held");
         }
         dieDiv.innerText = die.value;
-        dieDiv.addEventListener('click', () => {
-            die.held = !die.held;
-            dieDiv.classList.toggle("held");
-            renderDice();
-        });
+        if (die.value) {
+            dieDiv.classList.add(`die-with-value`);
+            dieDiv.addEventListener('click', () => {
+                die.held = !die.held;
+                dieDiv.classList.toggle("held");
+                renderDice();
+            });
+        } else {
+            dieDiv.classList.remove(`die-with-value`);
+            }
         diceContainer.appendChild(dieDiv);
     }
 }
@@ -70,8 +77,8 @@ function rollDice() {
     roll = dice.map(die => (die.value));
     rerolls--;
     if (rerolls === 0) {
-        nextTurnButton.classList.toggle("hidden");
-        rollButton.classList.toggle("hidden");
+        nextTurnButton.classList.remove("hidden");
+        rollButton.classList.add("hidden");
     }
 }
 
@@ -86,48 +93,8 @@ function calculateScore(row, section) {
     setScore(section, key, score);
 }
 
-function renderUpperScorecard() {
-    const upperScorecardTable = document.getElementById("upper-scorecard");
-    upperScorecardTable.innerHTML = "";
-    for (const value of Object.values(scorecard.upperSection)) {
-        const row = document.createElement("tr");
-        row.addEventListener('click', () => calculateScore(row, "upperSection"));
-        row.setAttribute('id', value.id);
-        row.innerHTML = `
-            <td>${value.name}</td>
-            <td>${value.value}</td>
-        `;
-        upperScorecardTable.appendChild(row);
-    }
-}
 
-function renderLowerScorecard() {
-    const lowerScorecardTable = document.getElementById("lower-scorecard");
-    lowerScorecardTable.innerHTML = "";
 
-    for (const value of Object.values(scorecard.lowerSection)) {
-        const row = document.createElement("tr");
-        row.addEventListener('click', () => calculateScore(row, 'lowerSection'));
-        row.setAttribute('id', value.id);
-        row.innerHTML = `
-            <td>${value.name}</td>
-            <td>${value.value}</td>
-        `;
-        lowerScorecardTable.appendChild(row);
-    }
-}
-
-function renderTotalScorecard() {
-    const totalScorecardTable = document.getElementById("total-scorecard");
-    totalScorecardTable.innerHTML = "";
-
-    const row = document.createElement("tr");
-    row.innerHTML = `
-        <td>${scorecard.totalScore.name}</td>
-        <td>${scorecard.totalScore.value}</td>
-    `;
-    totalScorecardTable.appendChild(row);
-}
 
 function setScore(section, key, score) {
     if (scorecard[section][key]) {
@@ -161,8 +128,54 @@ function resetScorecard() {
     scorecard.totalScore.value = 0;
 }
 
+
+// Scorecard rendering
+
+function renderUpperScorecard() {
+    upperScorecardTable.innerHTML = "";
+    for (const value of Object.values(scorecard.upperSection)) {
+        const row = document.createElement("tr");
+        row.addEventListener('click', () => calculateScore(row, "upperSection"));
+        row.setAttribute('id', value.id);
+        row.innerHTML = `
+            <td>${value.name}</td>
+            <td>${value.value}</td>
+        `;
+        upperScorecardTable.appendChild(row);
+    }
+}
+
+function renderLowerScorecard() {
+    lowerScorecardTable.innerHTML = "";
+    for (const value of Object.values(scorecard.lowerSection)) {
+        const row = document.createElement("tr");
+        row.addEventListener('click', () => calculateScore(row, 'lowerSection'));
+        row.setAttribute('id', value.id);
+        row.innerHTML = `
+            <td>${value.name}</td>
+            <td>${value.value}</td>
+        `;
+        lowerScorecardTable.appendChild(row);
+    }
+}
+
+function renderTotalScorecard() {
+    totalScorecardTable.innerHTML = "";
+    const row = document.createElement("tr");
+    row.innerHTML = `
+        <td>${scorecard.totalScore.name}</td>
+        <td>${scorecard.totalScore.value}</td>
+    `;
+    totalScorecardTable.appendChild(row);
+}
+
+// Game initialization
+
 function init() {
     dice = [...startingDice];
+    newGameButton.setAttribute("style", "display: none");
+    rollButton.setAttribute("style", "display: block");
+    nextTurnButton.classList.add("hidden");
     resetScorecard();
     renderDice();
     renderUpperScorecard();
@@ -170,5 +183,6 @@ function init() {
     renderTotalScorecard();
 }
 
-init();
+// start the game on page load
 
+init();
