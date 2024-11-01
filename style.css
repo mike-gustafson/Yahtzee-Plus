@@ -131,6 +131,7 @@ body {
     .die-with-value:hover {
         cursor: pointer;
         background-color: var(--papaya-whip);
+        color: black;
     }   
 }
 @media (max-width: 1028px) {
