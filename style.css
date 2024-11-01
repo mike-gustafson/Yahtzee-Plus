@@ -161,9 +161,21 @@ body {
     body {
         padding: 0;
     }   
+    h1 {
+        display: none;
+    }
     #game-container {
-        width: 100%;
+        width: 100vw;
+        height: 100vh;
         margin: 0;
+        border: none;
+        padding: 0;
+    }
+    #dice-container, #scorecard-container {
+        display: flex;
+        margin: 0;
+        padding: 0;
+        margin: auto;
     }
     .die {
         margin: 4px;
