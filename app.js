@@ -2,9 +2,9 @@ import * as diceDefaults from "./js/diceDefaults.js";
 import scorecardDefault from "./js/scorecardDefault.js";
 
 // Constants
+const defaultMaxRerolls = 3;
 const scorecard = scorecardDefault;
 const defaultDice = Array(5).fill().map(() => ({ ...diceDefaults.d6Default }));
-const defaultMaxRerolls = 3;
 
 let dice;
 let rerolls;
@@ -13,21 +13,20 @@ let scoreSelected = false;
 let maxRerolls = defaultMaxRerolls;
 
 // DOM elements
-const rollButton = document.getElementById("roll-button");
 const diceContainer = document.getElementById("dice");
+const rollsLeft = document.getElementById("rolls-left");
+const rollButton = document.getElementById("roll-button");
 const newGameButton = document.getElementById("new-game-button");
 const nextTurnButton = document.getElementById("next-turn-button");
-const upperScorecardTable = document.getElementById("upper-scorecard");
-const lowerScorecardTable = document.getElementById("lower-scorecard");
-const totalScorecardTable = document.getElementById("total-scorecard");
-
-const rollsLeft = document.getElementById("rolls-left");
 const rollsLeftValue = document.getElementById("rolls-left-value");
 const instructionHold = document.getElementById("instruction-hold");
 const instructionStart = document.getElementById("instruction-start");
 const instructionScore = document.getElementById("instruction-score");
-const instructionGameOver = document.getElementById("instruction-game-over");
+const upperScorecardTable = document.getElementById("upper-scorecard");
+const lowerScorecardTable = document.getElementById("lower-scorecard");
+const totalScorecardTable = document.getElementById("total-scorecard");
 const instructionNewTurn = document.getElementById("instruction-new-turn");
+const instructionGameOver = document.getElementById("instruction-game-over");
 
 const domStates = {
     gameStart: {
@@ -196,7 +195,6 @@ function changeDomState(elements) {
         element.classList.remove("hidden");
     }
     for (const element of elements.hidden) {
-        console.log('Hiding:', element.id)
         element.classList.add("hidden");
     }
 }
