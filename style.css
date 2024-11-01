@@ -130,7 +130,7 @@ body {
 @media (min-width: 760px) {
     .die-with-value:hover {
         cursor: pointer;
-        background-color: firebrick;
+        background-color: var(--papaya-whip);
     }   
 }
 @media (max-width: 1028px) {
