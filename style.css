@@ -123,17 +123,17 @@ body {
     background-color: firebrick;
     color: var(--papaya-whip)
 }
+@media (hover: hover) {
+    .die-with-value:hover {
+        cursor: pointer;
+        background-color: firebrick;
+    }   
+}
 #instruction-score {
     font-size: .7rem;
 }
 
-@media (min-width: 760px) {
-    .die-with-value:hover {
-        cursor: pointer;
-        background-color: var(--papaya-whip);
-        color: black;
-    }   
-}
+
 @media (max-width: 1028px) {
     #game-container {
         flex-direction: column;
