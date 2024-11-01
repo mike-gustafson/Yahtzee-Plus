@@ -10,8 +10,8 @@ let dice;
 let rerolls;
 let roll = [];
 let scoreSelected = false;
-let maxRerolls = defaultMaxRerolls;
 let isMusicPlaying = false;
+let maxRerolls = defaultMaxRerolls;
 
 // DOM elements
 const diceContainer = document.getElementById("dice");
@@ -23,12 +23,12 @@ const rollsLeftValue = document.getElementById("rolls-left-value");
 const instructionHold = document.getElementById("instruction-hold");
 const instructionStart = document.getElementById("instruction-start");
 const instructionScore = document.getElementById("instruction-score");
+const toggleMusicButton = document.getElementById("toggle-music");
 const upperScorecardTable = document.getElementById("upper-scorecard");
 const lowerScorecardTable = document.getElementById("lower-scorecard");
 const totalScorecardTable = document.getElementById("total-scorecard");
 const instructionNewTurn = document.getElementById("instruction-new-turn");
 const instructionGameOver = document.getElementById("instruction-game-over");
-const toggleMusicButton = document.getElementById("toggle-music");
 
 const domStates = {
     gameStart: {
@@ -52,7 +52,10 @@ const domStates = {
 rollButton.addEventListener('click', rollDice);
 newGameButton.addEventListener('click', init);
 nextTurnButton.addEventListener('click', nextTurn);
-toggleMusicButton.addEventListener("click", () => {
+toggleMusicButton.addEventListener("click", toggleMusic);
+
+// Game logic
+function toggleMusic() {
     if (isMusicPlaying) {
         bgMusic.pause();
         toggleMusicButton.innerText = "Play Music";
@@ -63,9 +66,8 @@ toggleMusicButton.addEventListener("click", () => {
         toggleMusicButton.innerText = "Pause Music";
     }
     isMusicPlaying = !isMusicPlaying;
-});
+}
 
-// Game logic
 function rollDice() {
     if (rerolls > 0) {
         scoreSelected = false;
