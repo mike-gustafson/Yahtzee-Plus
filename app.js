@@ -75,7 +75,7 @@ function nextTurn() {
         scoreSelected = false;
         dice = dice.map(die => ({ ...die, value: null, held: false }));
         changeDomState(domStates.newTurn);
-        renderDice();
+        rollDice();
     }
 }
 
