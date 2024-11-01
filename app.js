@@ -31,7 +31,7 @@ const instructionGameOver = document.getElementById("instruction-game-over");
 const domStates = {
     gameStart: {
         display: [instructionStart, rollButton], 
-        hidden: [instructionScore, instructionHold, instructionGameOver, rollsLeft, newGameButton]},
+        hidden: [instructionScore, instructionHold, instructionGameOver, rollsLeft, newGameButton, nextTurnButton]},
     gamePlaying: {
         display: [instructionScore, instructionHold, rollsLeft, rollButton],
         hidden: [instructionStart, instructionGameOver]},
@@ -40,7 +40,7 @@ const domStates = {
         hidden: [instructionStart, instructionHold, instructionScore, rollsLeft, rollButton]},
     outOfRerolls: {
         display: [instructionScore],
-        hidden: [instructionStart, rollsLeft, rollButton, instructionHold, instructionGameOver]},
+        hidden: [instructionStart, instructionHold, instructionGameOver, rollButton]},
     newTurn: {
         display: [rollButton],
         hidden: [instructionStart, instructionScore, instructionHold, instructionGameOver, rollsLeft, newGameButton]},
@@ -83,8 +83,10 @@ function nextTurn() {
 function renderDice() {
     diceContainer.innerHTML = "";
     rollsLeftValue.innerText = rerolls;
-    if (rerolls === 0) {
+    if (rerolls < 1) {
+        console.log(rerolls,"rerolls")
         changeDomState(domStates.outOfRerolls);
+        console.log(domStates.outOfRerolls)
     }
     for (const die of dice) {
         const dieDiv = document.createElement("div");
@@ -102,7 +104,7 @@ function renderDice() {
             });
         } else {
             dieDiv.classList.remove(`die-with-value`);
-            }
+        }
         diceContainer.appendChild(dieDiv);
     }
 }
@@ -187,11 +189,12 @@ function init() {
 }
 
 // Change the state of the DOM elements
-function changeDomState(state) {
-    for (const element of state.display) {
+function changeDomState(elements) {
+    for (const element of elements.display) {
         element.classList.remove("hidden");
     }
-    for (const element of state.hidden) {
+    for (const element of elements.hidden) {
+        console.log('Hiding:', element.id)
         element.classList.add("hidden");
     }
 }

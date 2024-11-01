@@ -30,83 +30,84 @@ body {
     background-attachment: fixed;
 }
 
-h1 {
-    text-align: center;
-    width: fit-content;
-    font-size: 3rem;
-    background-color: var(--tea-green);
-    color: var(--selective-yellow);
-    padding: 10px;
-    border-top-left-radius: 25px;
-    border-top-right-radius: 25px;
-    margin-bottom: 0;
-}
+    h1 {
+        text-align: center;
+        width: fit-content;
+        font-size: 3rem;
+        background-color: var(--tea-green);
+        color: var(--cornsilk);
+        text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+        padding: 10px;
+        border-top-left-radius: 25px;
+        border-top-right-radius: 25px;
+        margin-bottom: 0;
+    }
 
-#game-container {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
-    width: fit-content;
-    padding: 10px;
-    border: 10px solid var(--tea-green);
-    border-radius: 8px;
-    background-color: var(--buff);
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-}
+    #game-container {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+        width: fit-content;
+        padding: 10px;
+        border: 10px solid var(--tea-green);
+        border-radius: 8px;
+        background-color: var(--buff);
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    }
+        #dice-container,
+        #scorecard-container {
+            display: flex;
+            flex-direction: column;
+            background: var(--cornsilk);
+            padding: 20px;
+            margin: 5px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            align-items: center;
+        }
+        #dice-container {
+            max-width: 30vw;
+            min-width: 350px;
+        }
 
-#dice-container {
-    max-width: 30vw;
-    min-width: 350px;
-}
+        .scorecard-columns {
+            width: 30rem;
+            display: flex;
+            margin-bottom: 0;
+        }
+            table {
+                width: fit-content;
+                border-collapse: collapse;
+            }
+            th, td {
+                padding: 5px;
+            }
+            tr:nth-child(even) {
+                background-color: var(--papaya-whip);
+            }
+            tr:hover {
+                background-color: var(--tea-green);
+                cursor: pointer;
+            }
+            #total-score-container {
+                margin-top: 10px;
+                border-top: 2px solid black;
+                width: 50%;
+            }
+            .score-value {
+                font-weight: 600;
+                font-size: 1.25rem;
+                width: 30px;
+                text-align: right;
+                padding-right: 10px;
+                border-right: 1px solid black;
+                border-left: 1px solid black;
+            }
+            .score-name {
+                width: 10em;
+            }
 
-#dice-container,
-#scorecard-container {
-    display: flex;
-    flex-direction: column;
-    background: var(--cornsilk);
-    padding: 20px;
-    margin: 5px;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-    align-items: center;
-}
-
-.scorecard-columns {
-    width: 30rem;
-    display: flex;
-    margin-bottom: 0;
-}
-
-.upper-section,
-.lower-section {
-    width: 48rem;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-th, td {
-    padding: 5px, s0;
-    text-align: left;
-}
-
-tr:nth-child(even) {
-    background-color: var(--papaya-whip);
-}
-
-tr:hover {
-    background-color: var(--tea-green);
-    cursor: pointer;
-}
-
-#total-score-container {
-    margin-top: 10px;
-    border-top: 2px solid black;
-    width: 50%;
-}
-
+            
 .die {
     display: inline-block;
     width: 50px;
@@ -119,19 +120,13 @@ tr:hover {
     border-radius: 5px;
     background-color: var(--papaya-whip);
 }
-
 .die-with-value:hover {
     cursor: pointer;
     background-color: firebrick;
 }   
-
 .held {
     background-color: firebrick;
     color: var(--papaya-whip)
-}
-
-.hidden {
-    display: none;
 }
 
 @media (max-width: 1028px) {
@@ -180,9 +175,15 @@ tr:hover {
 }
 
 .scored {
-    color: red;
+    color: firebrick;
 }
-
+.scored:hover {
+    background-color: var(--cornsilk);
+    cursor: not-allowed;
+}
+.scored:nth-child(even):hover {
+    background-color: var(--papaya-whip);
+}
 
 button {
     background-color: var(--tea-green);
@@ -199,22 +200,14 @@ button {
 }
 
 button:hover {
-    background-color: var(--buff);
+    background-color: var(--papaya-whip);
     color: var(--tea-green);
     border-style: inset;
-    text-shadow: none;
 }
 
-.score-value {
-    font-weight: 600;
-    font-size: 1.25rem;
-    width: 30px;
-    text-align: right;
-    padding-right: 10px;
-    border-right: 1px solid black;
-    border-left: 1px solid black;
-}
-.score-name {
-    width: 10em;
 
+
+
+.hidden {
+    display: none;
 }
