@@ -10,7 +10,6 @@ let dice;
 let rerolls;
 let roll = [];
 let scoreSelected = false;
-let isMusicPlaying = false;
 let maxRerolls = defaultMaxRerolls;
 
 // DOM elements
@@ -23,7 +22,6 @@ const rollsLeftValue = document.getElementById("rolls-left-value");
 const instructionHold = document.getElementById("instruction-hold");
 const instructionStart = document.getElementById("instruction-start");
 const instructionScore = document.getElementById("instruction-score");
-const toggleMusicButton = document.getElementById("toggle-music");
 const upperScorecardTable = document.getElementById("upper-scorecard");
 const lowerScorecardTable = document.getElementById("lower-scorecard");
 const totalScorecardTable = document.getElementById("total-scorecard");
@@ -52,22 +50,8 @@ const domStates = {
 rollButton.addEventListener('click', rollDice);
 newGameButton.addEventListener('click', init);
 nextTurnButton.addEventListener('click', nextTurn);
-toggleMusicButton.addEventListener("click", toggleMusic);
 
 // Game logic
-function toggleMusic() {
-    if (isMusicPlaying) {
-        bgMusic.pause();
-        toggleMusicButton.innerText = "Play Music";
-    } else {
-        bgMusic.play().catch(error => {
-            console.log("Autoplay was prevented. User interaction required.");
-        });
-        toggleMusicButton.innerText = "Pause Music";
-    }
-    isMusicPlaying = !isMusicPlaying;
-}
-
 function rollDice() {
     if (rerolls > 0) {
         scoreSelected = false;
@@ -219,13 +203,6 @@ function changeDomState(elements) {
 function gameOver() {
     changeDomState(domStates.gameOver);
 }
-bgMusic.loop = true;
-bgMusic.play().then(() => {
-    isMusicPlaying = true;
-    toggleMusicButton.innerText = "Pause Music";
-}).catch(() => {
-    toggleMusicButton.innerText = "Play Music";
-    console.log("Autoplay was prevented. User interaction required.");
-});
+
 // start the game on page load
 document.addEventListener("DOMContentLoaded", init);
