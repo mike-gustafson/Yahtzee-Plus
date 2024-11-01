@@ -107,7 +107,7 @@ body {
                 width: 10em;
             }
 
-            
+
 .die {
     display: inline-block;
     width: 50px;
@@ -128,6 +128,10 @@ body {
     background-color: firebrick;
     color: var(--papaya-whip)
 }
+#instruction-score {
+    font-size: .7rem;
+}
+
 
 @media (max-width: 1028px) {
     #game-container {

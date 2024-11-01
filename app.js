@@ -27,22 +27,23 @@ const instructionHold = document.getElementById("instruction-hold");
 const instructionStart = document.getElementById("instruction-start");
 const instructionScore = document.getElementById("instruction-score");
 const instructionGameOver = document.getElementById("instruction-game-over");
+const instructionNewTurn = document.getElementById("instruction-new-turn");
 
 const domStates = {
     gameStart: {
         display: [instructionStart, rollButton], 
-        hidden: [instructionScore, instructionHold, instructionGameOver, rollsLeft, newGameButton, nextTurnButton]},
+        hidden: [instructionScore, instructionHold, instructionGameOver, rollsLeft, newGameButton, nextTurnButton, instructionNewTurn]},
     gamePlaying: {
         display: [instructionScore, instructionHold, rollsLeft, rollButton],
-        hidden: [instructionStart, instructionGameOver]},
+        hidden: [instructionStart, instructionGameOver, instructionNewTurn]},
     gameOver: {
         display: [instructionGameOver, newGameButton],
-        hidden: [instructionStart, instructionHold, instructionScore, rollsLeft, rollButton]},
+        hidden: [instructionStart, instructionHold, instructionScore, rollsLeft, rollButton, instructionNewTurn]},
     outOfRerolls: {
         display: [instructionScore],
-        hidden: [instructionStart, instructionHold, instructionGameOver, rollButton]},
+        hidden: [instructionStart, instructionHold, instructionGameOver, rollButton, instructionNewTurn]},
     newTurn: {
-        display: [rollButton],
+        display: [rollButton, instructionNewTurn],
         hidden: [instructionStart, instructionScore, instructionHold, instructionGameOver, rollsLeft, newGameButton]},
 }
 
@@ -60,7 +61,6 @@ function rollDice() {
         rerolls--;
         renderDice();
         renderScorecard();
-        changeDomState(domStates.gamePlaying);
     }
 }
 
@@ -83,11 +83,6 @@ function nextTurn() {
 function renderDice() {
     diceContainer.innerHTML = "";
     rollsLeftValue.innerText = rerolls;
-    if (rerolls < 1) {
-        console.log(rerolls,"rerolls")
-        changeDomState(domStates.outOfRerolls);
-        console.log(domStates.outOfRerolls)
-    }
     for (const die of dice) {
         const dieDiv = document.createElement("div");
         dieDiv.classList.add("die");
@@ -106,6 +101,13 @@ function renderDice() {
             dieDiv.classList.remove(`die-with-value`);
         }
         diceContainer.appendChild(dieDiv);
+    }
+    if (rerolls === maxRerolls) {
+        changeDomState(domStates.newTurn);
+    } else if (rerolls > 0) {
+        changeDomState(domStates.gamePlaying);
+    } else {
+        changeDomState(domStates.outOfRerolls);
     }
 }
 
