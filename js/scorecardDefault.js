@@ -6,8 +6,11 @@ const defaultScorecard = {
             value: 0,
             hasBeenScored: false,
             formula: function(dice) {
-                this.hasBeenScored = true;
-                return dice.filter(num => num === 1).length;
+                return dice.filter(num => num.value === 1).length;
+            },
+            scoreThis: function(dice) {
+                this.value = this.formula(dice);
+                return this.value;
             },
             tooltip: {
                 description: 'Sum of all ones rolled',
@@ -23,8 +26,11 @@ const defaultScorecard = {
             value: 0,
             hasBeenScored: false,
             formula: function(dice) {
-                this.hasBeenScored = true;
-                return dice.filter(num => num === 2).length * 2;
+                return dice.filter(num => num.value === 2).length * 2;
+            },
+            scoreThis: function(dice) {
+                this.value = this.formula(dice);
+                return this.value;
             },
             tooltip: {
                 description: 'Sum of all twos rolled',
@@ -40,8 +46,11 @@ const defaultScorecard = {
             value: 0,
             hasBeenScored: false,
             formula: function(dice) {
-                this.hasBeenScored = true;
-                return dice.filter(num => num === 3).length * 3;
+                return dice.filter(num => num.value === 3).length * 3;
+            },
+            scoreThis: function(dice) {
+                this.value = this.formula(dice);
+                return this.value;
             },
             tooltip: {
                 description: 'Sum of all threes rolled',
@@ -57,8 +66,11 @@ const defaultScorecard = {
             value: 0,
             hasBeenScored: false,
             formula: function(dice) {
-                this.hasBeenScored = true;
-                return dice.filter(num => num === 4).length * 4;
+                return dice.filter(num => num.value === 4).length * 4;
+            },
+            scoreThis: function(dice) {
+                this.value = this.formula(dice);
+                return this.value;
             },
             tooltip: {
                 description: 'Sum of all fours rolled',
@@ -74,8 +86,11 @@ const defaultScorecard = {
             value: 0,
             hasBeenScored: false,
             formula: function(dice) {
-                this.hasBeenScored = true;
-                return dice.filter(num => num === 5).length * 5;
+                return dice.filter(num => num.value === 5).length * 5;
+            },
+            scoreThis: function(dice) {
+                this.value = this.formula(dice);
+                return this.value;
             },
             tooltip: {
                 description: 'Sum of all fives rolled',
@@ -91,8 +106,11 @@ const defaultScorecard = {
             value: 0,
             hasBeenScored: false,
             formula: function(dice) {
-                this.hasBeenScored = true;
-                return dice.filter(num => num === 6).length * 6;
+                return dice.filter(die => die.value === 6).length * 6;
+            },
+            scoreThis: function(dice) {
+                this.value = this.formula(dice);
+                return this.value;
             },
             tooltip: {
                 description: 'Sum of all sixes rolled',
@@ -110,17 +128,21 @@ const defaultScorecard = {
             value: 0,
             hasBeenScored: false,
             formula: function(dice) {
-                this.hasBeenScored = true;
-                const counts = {};
-                for (const die of dice) {
-                    counts[die] = (counts[die] || 0) + 1;
-                }
-                for (const count of Object.values(counts)) {
-                    if (count >= 3) {
-                        return dice.reduce((sum, num) => sum + num, 0);
+                if (dice[0].value) {
+                    const counts = {};
+                    for (const die of dice) {
+                        counts[die.value] = (counts[die.value] || 0) + 1;
+                    }
+                    const isThereThreeOfAKind = Object.values(counts).some(count => count >= 3);
+                    if (isThereThreeOfAKind) {
+                        return dice.reduce((sum, die) => sum + die.value, 0);
                     }
                 }
-                return 0;
+                return 0
+            },
+            scoreThis: function(dice) {
+                this.value = this.formula(dice);
+                return this.value;
             },
             tooltip: {
                 description: 'Sum of all dice if at least three of one number',
@@ -136,17 +158,21 @@ const defaultScorecard = {
             value: 0,
             hasBeenScored: false,
             formula: function(dice) {
-                this.hasBeenScored = true;
-                const counts = {};
-                for (const die of dice) {
-                    counts[die] = (counts[die] || 0) + 1;
-                }
-                for (const count of Object.values(counts)) {
-                    if (count >= 4) {
-                        return dice.reduce((sum, num) => sum + num, 0);
+               if (dice[0].value) {
+                    const counts = {};
+                    for (const die of dice) {
+                        counts[die.value] = (counts[die.value] || 0) + 1;
+                    }
+                    const isThereFourOfAKind = Object.values(counts).some(count => count >= 4);
+                    if (isThereFourOfAKind) {
+                        return dice.reduce((sum, die) => sum + die.value, 0);
                     }
                 }
-                return 0;
+                return 0
+            },
+            scoreThis: function(dice) {
+                this.value = this.formula(dice);
+                return this.value;
             },
             tooltip: {
                 description: 'Sum of all dice if at least four of one number',
@@ -162,7 +188,6 @@ const defaultScorecard = {
             value: 0,
             hasBeenScored: false,
             formula: function(dice) {
-                this.hasBeenScored = true;
                 const counts = {};
                 for (const die of dice) {
                     counts[die] = (counts[die] || 0) + 1;
@@ -170,6 +195,10 @@ const defaultScorecard = {
                 const hasThree = Object.values(counts).includes(3);
                 const hasTwo = Object.values(counts).includes(2);
                 return (hasThree && hasTwo) ? 25 : 0;
+            },
+            scoreThis: function(dice) {
+                this.value = this.formula(dice);
+                return this.value;
             },
             tooltip: {
                 description: 'Score 25 points for a full house',
@@ -185,7 +214,6 @@ const defaultScorecard = {
             value: 0,
             hasBeenScored: false,
             formula: function(dice) {
-                this.hasBeenScored = true;
                 const uniqueDice = new Set(dice);
                 const straights = [
                     [1, 2, 3, 4],
@@ -193,6 +221,10 @@ const defaultScorecard = {
                     [3, 4, 5, 6]
                 ];
                 return straights.some(straight => straight.every(num => uniqueDice.has(num))) ? 30 : 0;
+            },
+            scoreThis: function(dice) {
+                this.value = this.formula(dice);
+                return this.value;
             },
             tooltip: {
                 description: 'Score 30 points for a small straight',
@@ -208,13 +240,16 @@ const defaultScorecard = {
             value: 0,
             hasBeenScored: false,
             formula: function(dice) {
-                this.hasBeenScored = true;
                 const uniqueDice = new Set(dice);
                 const straights = [
                     [1, 2, 3, 4, 5],
                     [2, 3, 4, 5, 6]
                 ];
                 return straights.some(straight => straight.every(num => uniqueDice.has(num))) ? 40 : 0;
+            },
+            scoreThis: function(dice) {
+                this.value = this.formula(dice);
+                return this.value;
             },
             tooltip: {
                 description: 'Score 40 points for a large straight',
@@ -230,12 +265,18 @@ const defaultScorecard = {
             value: 0,
             hasBeenScored: false,
             formula: function(dice) {
-                this.hasBeenScored = true;
+                if (!dice[0].value) {
+                    return 0;
+                }
                 const counts = {};
                 for (const die of dice) {
-                    counts[die] = (counts[die] || 0) + 1;
+                    counts[die.value] = (counts[die.value] || 0) + 1;
                 }
                 return Object.values(counts).includes(5) ? 50 : 0;
+            },
+            scoreThis: function(dice) {
+                this.value = this.formula(dice);
+                return this.value;
             },
             tooltip: {
                 description: 'Score 50 points for a Yahtzee',
@@ -251,8 +292,18 @@ const defaultScorecard = {
             value: 0,
             hasBeenScored: false,
             formula: function(dice) {
-                this.hasBeenScored = true;
-                return dice.reduce((sum, num) => sum + num, 0);
+                if (dice[0].value) {
+                    let totalOfAllDice = 0;
+                    for (const die of dice) {
+                        totalOfAllDice += die.value;
+                    }
+                    return totalOfAllDice;   
+                }
+                return 0;
+            },
+            scoreThis: function(dice) {
+                this.value = this.formula(dice);
+                return this.value;
             },
             tooltip: {
                 description: 'Sum of all dice',

@@ -9,8 +9,8 @@ const defaultDice = Array(5).fill().map(() => ({ ...diceDefaults.d6Default }));
 let dice;
 let rerolls;
 let roll = [];
-let scoreSelected = false;
 let maxRerolls = defaultMaxRerolls;
+let currentDiceHaveBeenScored = false;
 
 // DOM elements
 const diceContainer = document.getElementById("dice");
@@ -66,7 +66,7 @@ window.addEventListener("click", (event) => {if (event.target == instructionsMod
 // Game logic
 function rollDice() {
     if (rerolls > 0) {
-        scoreSelected = false;
+        currentDiceHaveBeenScored = false;
         dice = dice.map(die => die.held ? die : { ...die, value: Math.floor(Math.random() * die.sides) + 1 });
         roll = dice.map(die => (die.value));
         rerolls--;
@@ -82,9 +82,9 @@ function nextTurn() {
         gameOver();
         return;
     }
-    if (scoreSelected) {
+    if (currentDiceHaveBeenScored) {
         rerolls = maxRerolls;
-        scoreSelected = false;
+        currentDiceHaveBeenScored = false;
         dice = dice.map(die => ({ ...die, value: null, held: false }));
         changeDomState(domStates.newTurn);
         rollDice();
@@ -123,17 +123,17 @@ function renderDice() {
 }
 
 function calculateScore(row, section) {
-    if (scorecard[section][row.id].hasBeenScored) {
+    if (!dice.every(die => die.value || scorecard[section][row.id].hasBeenScored)) {
         return;
     }
-    const score = scorecard[section][row.id].formula(roll);
+    const score = scorecard[section][row.id].scoreThis(dice);
     const key = row.id;
     setScore(section, key, score);
 }
 
 function setScore(section, key, score) {
     if (scorecard[section][key]) {
-        scoreSelected = true;
+        currentDiceHaveBeenScored = true;
         scorecard[section][key].value = score;
         scorecard[section][key].hasBeenScored = true;
         renderScorecard();
@@ -162,24 +162,28 @@ function renderScorecard() {
 }
 function renderScorecardSection(tableName, sectionName) {
     tableName.innerHTML = "";
-    for (const value of Object.values(scorecard[sectionName])) {
+    for (const field of Object.values(scorecard[sectionName])) {
         const row = document.createElement("tr");
-        const tooltip = document.createElement("span");
-        tooltip.classList.add("tooltip");
-        tooltip.innerHTML = value.tooltip.description + "<br>" + value.tooltip.scorePreview;
-        console.log(value.tooltip.scorePreview(roll));
-        row.setAttribute('id', value.id);
-        if (value.hasBeenScored === true) {
+        row.setAttribute('id', field.id);
+        if (field.hasBeenScored === true) {
             row.classList.add("scored");
-        } else if (!scoreSelected){
+        } else if (!currentDiceHaveBeenScored){
             row.addEventListener('click', () => calculateScore(row, sectionName));
         } else{
             row.classList.add("disabled");
         }
-        row.innerHTML = `
-            <td class="score-name">${value.name}</td>
-            <td class="score-value">${value.value}</td>
-        `;
+        if (field.hasBeenScored) {
+            row.innerHTML = `
+                <td class="score-name">${field.name}</td>
+                <td class="score-value">${field.value}</td>`
+        } else {
+            row.innerHTML = `
+                <td class="score-name">${field.name}<br><span class="tooltip hidden">${field.tooltip.description}<br>${field.tooltip.scorePreview(dice)}</span></td>
+                <td class="score-value">${field.value}</td>`;
+            const tooltip = row.querySelector(".tooltip");
+            row.addEventListener('mouseover', () => { tooltip.classList.remove("hidden") });
+            row.addEventListener('mouseout', () => { tooltip.classList.add("hidden") });
+        }
         tableName.appendChild(row);
     }
 }
