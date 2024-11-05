@@ -164,6 +164,10 @@ function renderScorecardSection(tableName, sectionName) {
     tableName.innerHTML = "";
     for (const value of Object.values(scorecard[sectionName])) {
         const row = document.createElement("tr");
+        const tooltip = document.createElement("span");
+        tooltip.classList.add("tooltip");
+        tooltip.innerHTML = value.tooltip.description + "<br>" + value.tooltip.scorePreview;
+        console.log(value.tooltip.scorePreview(roll));
         row.setAttribute('id', value.id);
         if (value.hasBeenScored === true) {
             row.classList.add("scored");
