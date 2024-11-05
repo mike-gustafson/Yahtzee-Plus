@@ -5,7 +5,7 @@ import scorecardDefault from "./js/scorecardDefault.js";
 const defaultMaxRerolls = 3;
 const scorecard = scorecardDefault;
 const defaultDice = Array(5).fill().map(() => ({ ...diceDefaults.d6Default }));
-const bgMusic = new Audio("./bgmusic.mp3")
+
 let dice;
 let rerolls;
 let roll = [];
@@ -16,6 +16,7 @@ let maxRerolls = defaultMaxRerolls;
 const diceContainer = document.getElementById("dice");
 const rollsLeft = document.getElementById("rolls-left");
 const rollButton = document.getElementById("roll-button");
+const closeModalButton = document.getElementById("close-modal");
 const newGameButton = document.getElementById("new-game-button");
 const nextTurnButton = document.getElementById("next-turn-button");
 const rollsLeftValue = document.getElementById("rolls-left-value");
@@ -25,6 +26,8 @@ const instructionScore = document.getElementById("instruction-score");
 const upperScorecardTable = document.getElementById("upper-scorecard");
 const lowerScorecardTable = document.getElementById("lower-scorecard");
 const totalScorecardTable = document.getElementById("total-scorecard");
+const instructionsModal = document.getElementById("instructions-modal");
+const instructionsButton = document.getElementById("instructions-button");
 const instructionNewTurn = document.getElementById("instruction-new-turn");
 const instructionGameOver = document.getElementById("instruction-game-over");
 
@@ -44,12 +47,21 @@ const domStates = {
     newTurn: {
         display: [rollButton, instructionNewTurn],
         hidden: [instructionStart, instructionScore, instructionHold, instructionGameOver, rollsLeft, newGameButton]},
+    openInstructions: {
+        display: [instructionsModal],
+        hidden: [instructionsButton]},
+    closeInstructions: {
+        display: [instructionsButton],
+        hidden: [instructionsModal]},
 }
 
 // Event listeners
 rollButton.addEventListener('click', rollDice);
 newGameButton.addEventListener('click', init);
 nextTurnButton.addEventListener('click', nextTurn);
+closeModalButton.addEventListener("click", () => changeDomState(domStates.closeInstructions));
+instructionsButton.addEventListener("click", () => changeDomState(domStates.openInstructions));
+window.addEventListener("click", (event) => {if (event.target == instructionsModal) {changeDomState(domStates.closeInstructions)}});
 
 // Game logic
 function rollDice() {
@@ -191,44 +203,18 @@ function init() {
 
 // Change the state of the DOM elements
 function changeDomState(elements) {
-    for (const element of elements.display) {
-        element.classList.remove("hidden");
-    }
-    for (const element of elements.hidden) {
-        element.classList.add("hidden");
-    }
+    elements.display.forEach(element => {
+        if (element) element.classList.remove("hidden");
+    });
+    elements.hidden.forEach(element => {
+        if (element) element.classList.add("hidden");
+    });
 }
 
 // Game over
 function gameOver() {
     changeDomState(domStates.gameOver);
 }
-
-// Modal functionality
-const instructionsModal = document.getElementById("instructions-modal");
-const closeModalButton = document.getElementById("close-modal");
-const instructionsButton = document.getElementById("instructions-button");
-instructionsButton.addEventListener("click", openInstructionsModal);
-// Open modal function
-function openInstructionsModal() {
-    instructionsModal.classList.remove("hidden");
-    instructionsModal.style.display = "block";
-}
-
-// Close modal function
-function closeInstructionsModal() {
-    instructionsModal.classList.add("hidden");
-    instructionsModal.style.display = "none";
-}
-
-// Event listeners for modal
-closeModalButton.addEventListener("click", closeInstructionsModal);
-window.addEventListener("click", (event) => {
-    if (event.target == instructionsModal) {
-        closeInstructionsModal();
-    }
-});
-
 
 // start the game on page load
 document.addEventListener("DOMContentLoaded", init);
