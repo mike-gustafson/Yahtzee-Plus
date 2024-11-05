@@ -9,6 +9,7 @@
 </head>
 <body>
     <h1>Yahtzee</h1>
+
     <div id="game-container">
         <div id="dice-container">
             <h2>Dice</h2>
@@ -23,7 +24,7 @@
             <span class="instruction" id="instruction-game-over">Game Over!</span>
             <span class="instruction" id="instruction-new-turn">Click Roll to start a new turn.</span>
 
-            
+            <button id="instructions-button">Instructions</button>
 
         </div>
         <div id="scorecard-container">
@@ -49,5 +50,49 @@
             </div>
         </div>
     </div>
+
+<!-- Instructions Modal -->
+<div id="instructions-modal" class="modal hidden">
+    <div class="modal-content">
+        <span id="close-modal" class="close-button">&times;</span>
+        <h2>How to Play Yahtzee</h2>
+        <h3>Objective</h3>
+        <p>Score the most points by rolling five dice to make specific combinations over multiple turns.</p>
+        
+        <h3>Game Rules</h3>
+        <ul>
+            <li>On each turn, you can roll the dice up to three times.</li>
+            <li>After each roll, you can click on individual dice to "hold" them, keeping their values for the next roll.</li>
+            <li>Once you are satisfied with your dice roll, select a scoring category on the scorecard.</li>
+            <li>Each category can only be used once per game.</li>
+            <li>When both the Upper and Lower scorecard sections are completed, the game ends.</li>
+        </ul>
+
+        <h3>Scoring</h3>
+        <p>Score points based on specific combinations, divided into Upper and Lower sections:</p>
+        <ul>
+            <li><strong>Upper Section:</strong> Score points based on dice showing numbers 1 to 6. For example, if you choose "Threes," you score the sum of all dice showing 3.</li>
+            <li><strong>Lower Section:</strong> Score points for combinations such as Three of a Kind, Full House, Small Straight, Large Straight, Yahtzee (five of the same number), and Chance.</li>
+        </ul>
+
+        <h3>How to Play</h3>
+        <ul>
+            <li>Click "Roll" to start your turn.</li>
+            <li>Click on dice to hold them for the next roll, or roll again to try for a better combination.</li>
+            <li>When you're ready, click on a scoring category in the scorecard to save your score and end the turn.</li>
+            <li>Click "Next Turn" to begin a new turn.</li>
+            <li>Once all categories are filled, the game will display "Game Over!"</li>
+        </ul>
+
+        <h3>Controls</h3>
+        <ul>
+            <li><strong>Roll:</strong> Starts a roll or re-roll of the dice.</li>
+            <li><strong>Next Turn:</strong> Advances to the next turn after scoring.</li>
+            <li><strong>New Game:</strong> Resets the game to start over.</li>
+        </ul>
+    </div>
+</div>
+
+
 </body>
 </html>

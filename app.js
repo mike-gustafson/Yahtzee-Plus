@@ -204,5 +204,31 @@ function gameOver() {
     changeDomState(domStates.gameOver);
 }
 
+// Modal functionality
+const instructionsModal = document.getElementById("instructions-modal");
+const closeModalButton = document.getElementById("close-modal");
+const instructionsButton = document.getElementById("instructions-button");
+instructionsButton.addEventListener("click", openInstructionsModal);
+// Open modal function
+function openInstructionsModal() {
+    instructionsModal.classList.remove("hidden");
+    instructionsModal.style.display = "block";
+}
+
+// Close modal function
+function closeInstructionsModal() {
+    instructionsModal.classList.add("hidden");
+    instructionsModal.style.display = "none";
+}
+
+// Event listeners for modal
+closeModalButton.addEventListener("click", closeInstructionsModal);
+window.addEventListener("click", (event) => {
+    if (event.target == instructionsModal) {
+        closeInstructionsModal();
+    }
+});
+
+
 // start the game on page load
 document.addEventListener("DOMContentLoaded", init);
