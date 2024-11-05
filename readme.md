@@ -17,7 +17,7 @@
 
 ### 🔗 Attributions
 
-Includes datasets such as various dice configurations and a standard Yahtzee scorecard (scoring functions excluded).
+ChatGPT: datasets such as various dice configurations and a standard Yahtzee scorecard (scoring functions excluded).
 
 ---
 
