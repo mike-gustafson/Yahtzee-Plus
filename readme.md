@@ -1,6 +1,6 @@
 # 🎲 Yahtzee Plus 🎲
 
-![Screenshot/Logo](img)
+<img src="screenshot.jpg" alt="Screenshot of game" width="300"/>
 
 ## Your Game’s Name: **Yahtzee Plus**
 
