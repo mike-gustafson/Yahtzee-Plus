@@ -130,7 +130,6 @@ function calculateScore(row, section) {
     if (!dice.every(die => die.value || scorecard[section][row.id].hasBeenScored)) {
         return;
     }
-    console.log(scorecard);
     const score = scorecard[section][key].scoreThis(dice);
     setScore(section, key, score);
 }
