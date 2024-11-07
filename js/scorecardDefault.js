@@ -12,11 +12,11 @@ const defaultScorecard = {
                 this.value = this.formula(dice);
                 return this.value;
             },
-            tooltip: {
+            possiblePoints: {
                 description: 'Sum of all ones rolled',
                 scorePreview: function(dice) {
                     const score = defaultScorecard.upperSection.ones.formula(dice);
-                    return `Score if selected: ${score}`;
+                    return `(${score})`;
                 }
             }
         },
@@ -32,11 +32,11 @@ const defaultScorecard = {
                 this.value = this.formula(dice);
                 return this.value;
             },
-            tooltip: {
+            possiblePoints: {
                 description: 'Sum of all twos rolled',
                 scorePreview: function(dice) {
                     const score = defaultScorecard.upperSection.twos.formula(dice);
-                    return `Score if selected: ${score}`;
+                    return `(${score})`;
                 }
             }
         },
@@ -52,11 +52,11 @@ const defaultScorecard = {
                 this.value = this.formula(dice);
                 return this.value;
             },
-            tooltip: {
+            possiblePoints: {
                 description: 'Sum of all threes rolled',
                 scorePreview: function(dice) {
                     const score = defaultScorecard.upperSection.threes.formula(dice);
-                    return `Score if selected: ${score}`;
+                    return `(${score})`;
                 }
             }
         },
@@ -72,11 +72,11 @@ const defaultScorecard = {
                 this.value = this.formula(dice);
                 return this.value;
             },
-            tooltip: {
+            possiblePoints: {
                 description: 'Sum of all fours rolled',
                 scorePreview: function(dice) {
                     const score = defaultScorecard.upperSection.fours.formula(dice);
-                    return `Score if selected: ${score}`;
+                    return `(${score})`;
                 }
             }
         },
@@ -92,11 +92,11 @@ const defaultScorecard = {
                 this.value = this.formula(dice);
                 return this.value;
             },
-            tooltip: {
+            possiblePoints: {
                 description: 'Sum of all fives rolled',
                 scorePreview: function(dice) {
                     const score = defaultScorecard.upperSection.fives.formula(dice);
-                    return `Score if selected: ${score}`;
+                    return `(${score})`;
                 }
             }
         },
@@ -112,11 +112,11 @@ const defaultScorecard = {
                 this.value = this.formula(dice);
                 return this.value;
             },
-            tooltip: {
+            possiblePoints: {
                 description: 'Sum of all sixes rolled',
                 scorePreview: function(dice) {
                     const score = defaultScorecard.upperSection.sixes.formula(dice);
-                    return `Score if selected: ${score}`;
+                    return `(${score})`;
                 }
             }
         }
@@ -144,11 +144,11 @@ const defaultScorecard = {
                 this.value = this.formula(dice);
                 return this.value;
             },
-            tooltip: {
+            possiblePoints: {
                 description: 'Sum of all dice if at least three of one number',
                 scorePreview: function(dice) {
                     const score = defaultScorecard.lowerSection.threeOfAKind.formula(dice);
-                    return `Score if selected: ${score}`;
+                    return `(${score})`;
                 }
             }
         },
@@ -174,11 +174,11 @@ const defaultScorecard = {
                 this.value = this.formula(dice);
                 return this.value;
             },
-            tooltip: {
+            possiblePoints: {
                 description: 'Sum of all dice if at least four of one number',
                 scorePreview: function(dice) {
                     const score = defaultScorecard.lowerSection.fourOfAKind.formula(dice);
-                    return `Score if selected: ${score}`;
+                    return `(${score})`;
                 }
             }
         },
@@ -188,23 +188,26 @@ const defaultScorecard = {
             value: 0,
             hasBeenScored: false,
             formula: function(dice) {
-                const counts = {};
-                for (const die of dice) {
-                    counts[die] = (counts[die] || 0) + 1;
+                if (dice[0].value) {
+                    const counts = {};
+                    for (const die of dice) {
+                        counts[die.value] = (counts[die.value] || 0) + 1;
+                    }
+                    const hasThree = Object.values(counts).includes(3);
+                    const hasTwo = Object.values(counts).includes(2);
+                    return (hasThree && hasTwo) ? 25 : 0;
                 }
-                const hasThree = Object.values(counts).includes(3);
-                const hasTwo = Object.values(counts).includes(2);
-                return (hasThree && hasTwo) ? 25 : 0;
+                return 0;
             },
             scoreThis: function(dice) {
                 this.value = this.formula(dice);
                 return this.value;
             },
-            tooltip: {
+            possiblePoints: {
                 description: 'Score 25 points for a full house',
                 scorePreview: function(dice) {
                     const score = defaultScorecard.lowerSection.fullHouse.formula(dice);
-                    return `Score if selected: ${score}`;
+                    return `(${score})`;
                 }
             }
         },
@@ -226,11 +229,11 @@ const defaultScorecard = {
                 this.value = this.formula(dice);
                 return this.value;
             },
-            tooltip: {
+            possiblePoints: {
                 description: 'Score 30 points for a small straight',
                 scorePreview: function(dice) {
                     const score = defaultScorecard.lowerSection.smallStraight.formula(dice);
-                    return `Score if selected: ${score}`;
+                    return `(${score})`;
                 }
             }
         },
@@ -251,11 +254,11 @@ const defaultScorecard = {
                 this.value = this.formula(dice);
                 return this.value;
             },
-            tooltip: {
+            possiblePoints: {
                 description: 'Score 40 points for a large straight',
                 scorePreview: function(dice) {
                     const score = defaultScorecard.lowerSection.largeStraight.formula(dice);
-                    return `Score if selected: ${score}`;
+                    return `(${score})`;
                 }
             }
         },
@@ -278,11 +281,11 @@ const defaultScorecard = {
                 this.value = this.formula(dice);
                 return this.value;
             },
-            tooltip: {
+            possiblePoints: {
                 description: 'Score 50 points for a Yahtzee',
                 scorePreview: function(dice) {
                     const score = defaultScorecard.lowerSection.yahtzee.formula(dice);
-                    return `Score if selected: ${score}`;
+                    return `(${score})`;
                 }
             }
         },
@@ -305,11 +308,11 @@ const defaultScorecard = {
                 this.value = this.formula(dice);
                 return this.value;
             },
-            tooltip: {
+            possiblePoints: {
                 description: 'Sum of all dice',
                 scorePreview: function(dice) {
                     const score = defaultScorecard.lowerSection.chance.formula(dice);
-                    return `Score if selected: ${score}`;
+                    return `(${score})`;
                 }
             }
         }

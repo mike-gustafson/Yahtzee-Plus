@@ -54,7 +54,7 @@ body {
         background-color: var(--buff);
         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
     }
-        #dice-container,
+        #dice-container, #playfield-container,
         #scorecard-container {
             display: flex;
             flex-direction: column;
@@ -64,12 +64,22 @@ body {
             border-radius: 8px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
             align-items: center;
+            height: fit-content;
         }
         #dice-container {
             max-width: 30vw;
             min-width: 350px;
         }
-
+        #playfield-container {
+            height: auto;
+        }
+        #controls-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100%;
+            width: 100%;
+        }
         .scorecard-columns {
             width: 30rem;
             display: flex;
@@ -106,7 +116,12 @@ body {
             .score-name {
                 width: 10em;
             }
-
+            .possiblePoints {
+                color:firebrick;
+                font-size: .7rem;
+                text-align: center;
+                font-weight: 800;
+            }
 .die {
     display: inline-block;
     width: 50px;
@@ -222,15 +237,15 @@ button:hover {
     border-style: inset;
 }
 
-
+#instructions-button {
+    margin-top: auto;
+}
 
 
 .hidden {
     display: none;
 }
 
-
-/* Modal styling */
 .modal {
     position: fixed;
     z-index: 1000;
@@ -243,16 +258,17 @@ button:hover {
 }
 
 .modal-content {
-    background-color: #fff;
-    margin: 10% auto;
+    background-color: var(--cornsilk);
+    margin: 5% auto;
     padding: 20px;
     border: 1px solid #888;
+    border-radius: 8px;
     width: 80%;
     max-width: 600px;
 }
 
 .close-button {
-    color: #aaa;
+    color: var(--tea-green);
     float: right;
     font-size: 28px;
     font-weight: bold;
