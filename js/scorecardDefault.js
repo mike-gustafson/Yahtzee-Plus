@@ -244,7 +244,8 @@ const defaultScorecard = {
             value: 0,
             hasBeenScored: false,
             formula: function(dice) {
-                const uniqueDice = new Set(dice);
+                const diceValues = dice.map(die => die.value);
+                const uniqueDice = new Set(diceValues);
                 const straights = [
                     [1, 2, 3, 4, 5],
                     [2, 3, 4, 5, 6]
