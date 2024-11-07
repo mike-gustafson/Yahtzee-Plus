@@ -11,34 +11,33 @@
     <h1>Yahtzee</h1>
 
     <div id="game-container">
+
       <div id="playfield-container">
         <div id="dice-container">
           <div id="dice"></div>
         </div>
         <div id="controls-container">
-          <span class="instruction" id="instruction-hold"
-            >Click on the dice you want to keep.</span
-          >
           <button id="roll-button">
             <span id="rolls-default">Roll</span>
             <span id="rolls-left">Rolls left: <span id="rolls-left-value"></span></span>
           </button>
           <button id="next-turn-button">Next Turn</button>
           <button id="new-game-button">New Game</button>
-          <span class="instruction" id="instruction-start"
-            >Click Roll to start the game.</span
-          >
-          <span class="instruction" id="instruction-score"
-            >Select a category on scorecard before you can start a new turn</span
-          >
+          
+          <span class="instruction" id="instruction-hold">Click on the dice you want to keep.</span>
+          <span class="instruction" id="instruction-start">Click Roll to start the game.</span>
+          <span class="instruction" id="instruction-score">Select a category on scorecard before you can start a new turn</span>
           <span class="instruction" id="instruction-game-over">Game Over!</span>
-          <span class="instruction" id="instruction-new-turn"
-            >Click Roll to start a new turn.</span
-          >
+          <br>
+          <div class="toggle-container">
+            <div class="toggle active" id="toggle-possible-points"></div>
+            <span class="toggle-label">Preview Points</span>
+          </div>
 
           <button id="instructions-button">Instructions</button>
         </div>
       </div>
+
       <div id="scorecard-container">
         <h2>Scorecard</h2>
         <div class="scorecard-columns">
@@ -59,7 +58,7 @@
           <table>
             <tbody id="total-scorecard"></tbody>
           </table>
-        </div>
+        </div>  
       </div>
     </div>
 

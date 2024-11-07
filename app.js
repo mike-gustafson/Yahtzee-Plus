@@ -6,6 +6,10 @@ const defaultMaxRerolls = 3;
 const scorecard = scorecardDefault;
 const defaultDice = Array(5).fill().map(() => ({ ...diceDefaults.d6Default }));
 
+const uiOptions = {
+    possiblePoints: true,
+}
+
 let dice;
 let rerolls;
 let roll = [];
@@ -29,24 +33,24 @@ const lowerScorecardTable = document.getElementById("lower-scorecard");
 const totalScorecardTable = document.getElementById("total-scorecard");
 const instructionsModal = document.getElementById("instructions-modal");
 const instructionsButton = document.getElementById("instructions-button");
-const instructionNewTurn = document.getElementById("instruction-new-turn");
 const instructionGameOver = document.getElementById("instruction-game-over");
+const optionPossiblePoints = document.getElementById("toggle-possible-points");
 
 const domStates = {
     gameStart: {
         display: [instructionStart, rollButton, rollsDefault], 
-        hidden: [instructionScore, instructionHold, instructionGameOver, rollsLeft, newGameButton, nextTurnButton, instructionNewTurn, rollsLeft]},
+        hidden: [instructionScore, instructionHold, instructionGameOver, rollsLeft, newGameButton, nextTurnButton, rollsLeft]},
     gamePlaying: {
         display: [instructionScore, instructionHold, rollsLeft, rollButton],
-        hidden: [instructionStart, instructionGameOver, instructionNewTurn, rollsDefault]},
+        hidden: [instructionStart, instructionGameOver, rollsDefault]},
     gameOver: {
         display: [instructionGameOver, newGameButton],
-        hidden: [instructionStart, instructionHold, instructionScore, rollsLeft, rollButton, instructionNewTurn]},
+        hidden: [instructionStart, instructionHold, instructionScore, rollsLeft, rollButton]},
     outOfRerolls: {
         display: [instructionScore],
-        hidden: [instructionStart, instructionHold, instructionGameOver, rollButton, instructionNewTurn]},
+        hidden: [instructionStart, instructionHold, instructionGameOver, rollButton]},
     newTurn: {
-        display: [rollButton, instructionNewTurn, rollsDefault],
+        display: [rollButton, rollsDefault],
         hidden: [instructionStart, instructionScore, instructionHold, instructionGameOver, rollsLeft, newGameButton]},
     openInstructions: {
         display: [instructionsModal],
@@ -62,6 +66,7 @@ newGameButton.addEventListener('click', init);
 nextTurnButton.addEventListener('click', nextTurn);
 closeModalButton.addEventListener("click", () => changeDomState(domStates.closeInstructions));
 instructionsButton.addEventListener("click", () => changeDomState(domStates.openInstructions));
+optionPossiblePoints.addEventListener("click", togglePossiblePoints);
 window.addEventListener("click", (event) => {if (event.target == instructionsModal) {changeDomState(domStates.closeInstructions)}});
 
 // Game logic
@@ -205,10 +210,10 @@ function scorecardRowRender(row, field, dice) {
             <td class="score-name">${field.name}<span class="possiblePoints hidden"> ${field.possiblePoints.scorePreview(dice)}</span></td>
             <td class="score-value">${field.value}</td>`;    
         const possiblePoints = row.querySelector(".possiblePoints");
-        if (roll.length > 0 && row.classList.contains("possible")) {
+        if (roll.length > 0 && row.classList.contains("possible") && uiOptions.possiblePoints) {
             possiblePoints.classList.remove("hidden");
         }
-        if (field.possiblePoints.scorePreview(dice) === 0) {
+        if (field.possiblePoints.scorePreview(dice) === 0 && !uiOptions.possiblePoints) {
             possiblePoints.classList.add("hidden");
         }
     }
@@ -244,6 +249,17 @@ function changeDomState(elements) {
     elements.hidden.forEach(element => {
         if (element) element.classList.add("hidden");
     });
+}
+
+// Options functions
+function togglePossiblePoints() {
+    uiOptions.possiblePoints = !uiOptions.possiblePoints;
+    if (uiOptions.possiblePoints) {
+        optionPossiblePoints.classList.add("active");
+    } else {
+        optionPossiblePoints.classList.remove("active");
+    }
+    scorecardRenderMain();
 }
 
 // Game over

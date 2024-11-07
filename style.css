@@ -145,7 +145,7 @@ body {
     }   
 }
 #instruction-score {
-    font-size: .7rem;
+    font-size: .9rem;
 }
 
 
@@ -239,6 +239,9 @@ button:hover {
 
 #instructions-button {
     margin-top: auto;
+    font-size: 1rem;
+    padding: 2px 4px;
+    background-color: var(--buff);
 }
 
 
@@ -282,4 +285,48 @@ button:hover {
 
 .show {
     display: block;
+}
+
+.toggle-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: Arial, sans-serif;
+  font-size: .8rem;
+  font-weight: 600;
+  color: #333;
+  margin: 0.5em 0;
+  padding: 5px;
+  border: 2px solid #333;
+  border-radius: 8px;
+}
+.toggle {
+  position: relative;
+  width: 50px;
+  height: 26px;
+  border-radius: 50px;
+  background-color: var(--beige);
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.toggle::before {
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: var(--buff);
+  transition: transform 0.3s ease;
+}
+.toggle.active {
+  background-color: var(--tea-green);
+}
+.toggle.active::before {
+  transform: translateX(24px);
+}
+.toggle-label {
+  margin-left: 10px;
+  user-select: none;
 }
