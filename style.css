@@ -146,31 +146,7 @@ h1 {
 }
 
 
-
-@media (max-width: 1028px) {
-    #game-container {
-        flex-direction: column;
-    }
-
-    #dice-container {
-        max-width: 90vw;
-    }
-
-    #scorecard-container {
-        margin-top: 20px;
-    }
-
-    .scorecard-columns {
-        width: 100%;
-    }
-
-    .upper-section,
-    .lower-section {
-        width: 100%;
-    }
-}
-
-@media  (max-width: 768px) {
+@media  (max-width: 1028px) {
     body {
         padding: 0;
         width: 100vw;
