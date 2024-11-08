@@ -170,7 +170,7 @@ h1 {
     }
 }
 
-@media (max-width: 390px) {
+@media  (max-width: 768px) {
     body {
         padding: 0;
         width: 100vw;
