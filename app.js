@@ -8,6 +8,7 @@ const defaultDice = Array(5).fill().map(() => ({ ...diceDefaults.d6Default }));
 
 const uiOptions = {
     possiblePoints: true,
+    darkMode: false,
 }
 
 let dice;
@@ -36,10 +37,11 @@ const totalScorecardTable = document.getElementById("total-scorecard");
 const instructionsModal = document.getElementById("instructions-modal");
 const instructionsButton = document.getElementById("instructions-button");
 const instructionGameOver = document.getElementById("instruction-game-over");
+const optionDarkMode = document.getElementById("toggle-dark-mode");
 const optionPossiblePoints = document.getElementById("toggle-possible-points");
 const collapsibeSections = document.querySelectorAll(".collapsible-section");
-const upperSectionBonus = document.getElementById("upper-section-bonus");
- 
+const upperSectionBonus = document.getElementById("upper-section-bonus"); 
+
 const domStates = {
     gameStart: {
         display: [instructionStart, rollButton, rollsDefault], 
@@ -72,6 +74,7 @@ rollButton.addEventListener('click', rollDice);
 newGameButton.addEventListener('click', init);
 nextTurnButton.addEventListener('click', nextTurn);
 optionPossiblePoints.addEventListener("click", togglePossiblePoints);
+optionDarkMode.addEventListener("click", toggleDarkMode);
 
 optionsButton.addEventListener('click', () => changeDomState(domStates.openOptions));
 instructionsButton.addEventListener("click", () => changeDomState(domStates.openInstructions));
@@ -306,6 +309,17 @@ function togglePossiblePoints() {
         optionPossiblePoints.classList.remove("active");
     }
     scorecardRenderMain();
+}
+
+function toggleDarkMode() {
+    uiOptions.darkMode = !uiOptions.darkMode;
+    if (!uiOptions.darkMode) {
+        document.querySelectorAll(".dark").forEach(Node => Node.classList.remove("dark"));
+        optionDarkMode.classList.add("active");
+    } else {
+        document.querySelectorAll('*').forEach(Node => Node.classList.add("dark"));
+        optionDarkMode.classList.remove("active");
+    }
 }
 
 // Game over

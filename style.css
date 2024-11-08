@@ -6,6 +6,13 @@
 --papaya-whip: #faedcdff;
 --buff: #d4a373ff;
 --gradient-radial: radial-gradient(#ccd5aeff, #e9edc9ff, #fefae0ff, #faedcdff, #d4a373ff);
+
+--tea-green-dark: #4f5b3f;
+--beige-dark: #4a4e44;
+--cornsilk-dark: #333a23;
+--papaya-whip-dark: #5f5b44;
+--buff-dark: #8a6741;
+--gradient-radial-dark: radial-gradient(#4f5b3f, #4a4e44, #333a23, #5f5b44, #8a6741);
 }
 
 /* Global */
@@ -26,6 +33,10 @@ body {
     background-image: var(--gradient-radial);
 }
 
+body.dark {
+    background-image: var(--gradient-radial-dark);
+}
+
 /* Game */
 h1 {
     text-align: center;
@@ -39,6 +50,10 @@ h1 {
     border-top-right-radius: 25px;
     margin-bottom: 0;
 }
+h1.dark {
+    background-color: var(--tea-green-dark);
+    color: var(--cornsilk-dark);
+}
 
 #game-container {
     display: flex;
@@ -50,6 +65,10 @@ h1 {
     border-radius: 8px;
     background-color: var(--buff);
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+#game-container.dark {
+    border-color: var(--tea-green-dark);
+    background-color: var(--beige-dark);
 }
     /* Containers */
     #dice-container, 
@@ -66,7 +85,12 @@ h1 {
         align-items: center;
         height: auto;
     }
-
+    #dice-container.dark,
+    #playfield-container.dark,
+    #scorecard-container.dark,
+    #controls-container.dark {
+        background: var(--papaya-whip-dark);
+    }
     /* Playfield specific */
         .die {
             display: inline-block;
@@ -80,20 +104,21 @@ h1 {
             border-radius: 5px;
             background-color: var(--papaya-whip);
         }
+        .die.dark {
+            background-color: var(--cornsilk-dark);
+        }
         .held {
             background-color: firebrick;
             color: var(--papaya-whip)
+        }
+        .held.dark {
+            color: var(--cornsilk-dark);
         }
         #controls-container {
             height: 100%;
             width: 100%;
             padding: 0;
         }
-
-
-
-
-
 
     .scorecard-columns {
             width: 30rem;
@@ -110,9 +135,15 @@ h1 {
             tr:nth-child(even) {
                 background-color: var(--papaya-whip);
             }
+            tr:nth-child(even).dark {
+                background-color: var(--cornsilk-dark);
+            }
             .score-name:hover {
                 background-color: var(--tea-green);
                 cursor: pointer;
+            }
+            .score-name.dark:hover {
+                background-color: var(--tea-green-dark);
             }
             #total-score-container {
                 margin-top: 10px;
@@ -138,6 +169,9 @@ h1 {
                 background-color: var(--buff);
                 font-weight: 600;
             }
+            .bonus-name.dark, .total-name.dark, .bonus-value.dark, .total-value.dark {
+                background-color: var(--buff-dark);
+            }
             .score-name, .bonus-name, .total-name {
                 width: 10em;
             }
@@ -155,7 +189,6 @@ h1 {
         background-color: firebrick;
     }   
 }
-
 
 @media  (max-width: 480px) {
     body {
@@ -243,6 +276,10 @@ button:hover {
     color: var(--tea-green);
     border-style: inset;
 }
+button:hover.dark {
+    background-color: var(--papaya-whip-dark);
+    color: var(--tea-green-dark);
+}
 
 #modal-buttons {    
     margin-top: auto;
@@ -252,6 +289,9 @@ button:hover {
     font-size: 1rem;
     padding: 2px 4px;
     background-color: var(--buff);
+}
+.modal-open-button.dark {
+    background-color: var(--buff-dark);
 }
 
 .hidden {
@@ -277,11 +317,17 @@ button:hover {
     width: 80%;
     max-width: 600px;
 }
+.modal-content.dark {
+    background-color: var(--cornsilk-dark);
+}
 .close-button {
     color: var(--tea-green);
     float: right;
     font-size: 28px;
     font-weight: bold;
+}
+.close-button.dark {
+    color: var(--tea-green-dark);
 }
 .close-button:hover, .close-button:focus {
     color: black;
@@ -313,6 +359,9 @@ button:hover {
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
+.toggle.dark {
+  background-color: var(--beige-dark);
+}
 .toggle::before {
   content: '';
   position: absolute;
@@ -324,8 +373,14 @@ button:hover {
   background-color: var(--buff);
   transition: transform 0.3s ease;
 }
+.toggle::before.dark {
+  background-color: var(--buff-dark);
+}
 .toggle.active {
   background-color: var(--tea-green);
+}
+.toggle.active.dark {
+  background-color: var(--tea-green-dark);
 }
 .toggle.active::before {
   transform: translateX(24px);
@@ -344,9 +399,15 @@ button:hover {
     border-bottom-left-radius: 8px;
     border-top-right-radius: 8px;
 }
+.collapsible-content.dark {
+    border: 1px solid var(--cornsilk-dark);
+}
   .collapsible-content.active {
     border: 1px solid var(--tea-green);
     max-height: 200px; /* Adjust this value as needed for smoother animation */
+  }
+  .collapsible-content.active.dark {
+      border: 1px solid var(--tea-green-dark);
   }
   h3 {
     margin: .25rem;
@@ -363,12 +424,24 @@ button:hover {
       0 0 30px var(--tea-green),
       0 0 40px var(--tea-green);
   }
+  h3:hover.dark {
+    text-shadow: 
+      0 0 5px var(--buff-dark),
+      0 0 10px var(--buff-dark),
+      0 0 15px var(--tea-green-dark),
+      0 0 20px var(--tea-green-dark),
+      0 0 30px var(--tea-green-dark),
+      0 0 40px var(--tea-green-dark);
+  }
 .arrow {
     display: inline-block;
     transition: transform 0.3s ease;
     font-weight: bold;
     color: var(--buff)
   }
+    .arrow.dark {
+        color: var(--buff-dark);
+    }
   .collapsible-section.expanded .arrow {
     transform: rotate(90deg);
   }
@@ -381,6 +454,9 @@ button:hover {
     padding: 0;
     margin: 0;
   }
+    .option.dark {
+        border: 1px solid var(--buff-dark);
+    }
   .option>.toggle-container {
     width: fit-content;
   }
@@ -390,12 +466,17 @@ button:hover {
     margin: 0;
     align-content: center;
   }
+    .option>p.dark {
+        border-left: 1px solid var(--buff-dark);
+    }
 
 .instruction {
     margin-top: 10px;
     border-top: 1px solid var(--buff);
     width: 100%;
-
+}
+.instruction.dark {
+    border-top: 1px solid var(--buff-dark);
 }
 
 
