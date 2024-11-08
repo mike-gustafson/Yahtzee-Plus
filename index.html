@@ -28,13 +28,11 @@
           <span class="instruction" id="instruction-start">Click Roll to start the game.</span>
           <span class="instruction" id="instruction-score">Select a category on scorecard before you can start a new turn</span>
           <span class="instruction" id="instruction-game-over">Game Over!</span>
-          <br>
-          <div class="toggle-container">
-            <div class="toggle active" id="toggle-possible-points"></div>
-            <span class="toggle-label">Preview Points</span>
-          </div>
 
-          <button id="instructions-button">Instructions</button>
+          <div id="modal-buttons">
+            <button id="instructions-button" class="modal-open-button">Instructions</button>
+            <button id="options-button" class="modal-open-button">Options</button>
+          </div>  
         </div>
       </div>
 
@@ -68,7 +66,7 @@
         <h2>How to Play Yahtzee</h2>
     
         <div class="collapsible-section">
-          <h3>Objective</h3>
+          <h3>Objective <span class="arrow">></span></h3>
           <div class="collapsible-content">
             <p>
               Score the most points by rolling five dice to make specific
@@ -78,7 +76,7 @@
         </div>
     
         <div class="collapsible-section">
-          <h3>Game Rules</h3>
+          <h3>Game Rules <span class="arrow">></span></h3>
           <div class="collapsible-content">
             <ul>
               <li>On each turn, you can roll the dice up to three times.</li>
@@ -91,7 +89,7 @@
         </div>
     
         <div class="collapsible-section">
-          <h3>Scoring</h3>
+          <h3>Scoring <span class="arrow">></span></h3>
           <div class="collapsible-content">
             <p>
               Score points based on specific combinations, divided into Upper and Lower sections:
@@ -104,7 +102,7 @@
         </div>
     
         <div class="collapsible-section">
-          <h3>How to Play</h3>
+          <h3>How to Play <span class="arrow">></span></h3>
           <div class="collapsible-content">
             <ul>
               <li>Click "Roll" to start your turn.</li>
@@ -115,7 +113,7 @@
         </div>
     
         <div class="collapsible-section">
-          <h3>Controls</h3>
+          <h3>Controls <span class="arrow">></span></h3>
           <div class="collapsible-content">
             <ul>
               <li><strong>Roll:</strong> Starts a roll or re-roll of the dice.</li>
@@ -127,5 +125,19 @@
       </div>
     </div>
     
+    <div id="options-modal" class="modal hidden">
+      <div class="modal-content">
+        <span id="close-modal" class="close-button">&times;</span>
+        <h2>Game Options</h2>
+        <div class="option">
+          <div class="toggle-container">
+            <div class="toggle active" id="toggle-possible-points"></div>
+            <span class="toggle-label">Preview Points</span>
+          </div>
+          <p>Show possible points for each category on the scorecard.</p>
+        </div>
+      </div>
+    </div>
+
   </body>
 </html>

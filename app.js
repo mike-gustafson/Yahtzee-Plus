@@ -21,7 +21,9 @@ const diceContainer = document.getElementById("dice");
 const rollsLeft = document.getElementById("rolls-left");
 const rollButton = document.getElementById("roll-button");
 const rollsDefault = document.getElementById("rolls-default");
-const closeModalButton = document.getElementById("close-modal");
+const  optionsModal = document.getElementById("options-modal");
+const optionsButton = document.getElementById("options-button");
+const closeModalButton = document.querySelectorAll("#close-modal");
 const newGameButton = document.getElementById("new-game-button");
 const nextTurnButton = document.getElementById("next-turn-button");
 const rollsLeftValue = document.getElementById("rolls-left-value");
@@ -55,19 +57,24 @@ const domStates = {
         hidden: [instructionStart, instructionScore, instructionHold, instructionGameOver, rollsLeft, newGameButton]},
     openInstructions: {
         display: [instructionsModal],
-        hidden: [instructionsButton]},
-    closeInstructions: {
-        display: [instructionsButton],
-        hidden: [instructionsModal]},
+        hidden: []},
+    closeModal: {
+        display: [],
+        hidden: [instructionsModal, optionsModal]},
+    openOptions: {
+        display: [optionsModal],
+        hidden: []},
 }
 
 // Event listeners
 rollButton.addEventListener('click', rollDice);
 newGameButton.addEventListener('click', init);
 nextTurnButton.addEventListener('click', nextTurn);
-closeModalButton.addEventListener("click", () => changeDomState(domStates.closeInstructions));
-instructionsButton.addEventListener("click", () => changeDomState(domStates.openInstructions));
 optionPossiblePoints.addEventListener("click", togglePossiblePoints);
+
+optionsButton.addEventListener('click', () => changeDomState(domStates.openOptions));
+instructionsButton.addEventListener("click", () => changeDomState(domStates.openInstructions));
+closeModalButton.forEach(button => button.addEventListener('click', () => changeDomState(domStates.closeModal)));
 window.addEventListener("click", (event) => {if (event.target == instructionsModal) {changeDomState(domStates.closeInstructions)}});
 collapsibeSections.forEach(section => {
     const header = section.querySelector("h3");
@@ -78,11 +85,15 @@ collapsibeSections.forEach(section => {
             const otherContent = otherSection.querySelector(".collapsible-content");
             if (otherContent !== content) {
                 otherContent.classList.remove("active");
+                          otherSection.querySelector(".collapsible-content").classList.remove("active");
+
             }
         });
         content.classList.toggle("active");
+        section.classList.toggle("expanded");
     });
 });
+
 // Game logic
 function rollDice() {
     if (rerolls > 0) {
