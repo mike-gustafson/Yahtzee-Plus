@@ -22,28 +22,32 @@
             <span id="rolls-left">Rolls left: <span id="rolls-left-value"></span></span>
           </button>
           <button id="next-turn-button">Next Turn</button>
-          <button id="new-game-button">New Game</button>
           
           <span class="instruction" id="instruction-hold">Click on the dice you want to keep.</span>
           <span class="instruction" id="instruction-start">Click Roll to start the game.</span>
-          <span class="instruction" id="instruction-score">Select a category on scorecard before you can start a new turn</span>
+          <span class="instruction" id="instruction-score">Select a category on scorecard<br>before you can start a new turn</span>
           <span class="instruction" id="instruction-game-over">Game Over!</span>
 
           <div id="modal-buttons">
             <button id="instructions-button" class="modal-open-button">Instructions</button>
             <button id="options-button" class="modal-open-button">Options</button>
+            <button id="new-game-button" class="modal-open-button">New Game</button>
           </div>  
         </div>
       </div>
 
       <div id="scorecard-container">
-        <h2>Scorecard</h2>
         <div class="scorecard-columns">
           <div class="upper-section">
             <h3>Upper Section</h3>
             <table>
               <tbody id="upper-scorecard"></tbody>
             </table>
+            <div id="upper-sections-bonus-container">
+              <table>
+                <tbody id="upper-section-bonus"></tbody>
+              </table>
+            </div>  
           </div>
           <div class="lower-section">
             <h3>Lower Section</h3>

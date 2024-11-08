@@ -121,6 +121,15 @@ const defaultScorecard = {
             }
         }
     },
+    upperBonus: {
+        name: 'Upper Bonus',
+        value: 0,
+        formula: function() {
+            const upperSectionTotal = Object.values(defaultScorecard.upperSection).reduce((sum, item) => sum + item.value, 0);
+            this.value = upperSectionTotal >= 63 ? 35 : 0;
+            return this.value;
+        }
+    },
     lowerSection: {
         threeOfAKind: {
             id: 'threeOfAKind',
@@ -322,8 +331,9 @@ const defaultScorecard = {
 
     totalScore: { name: 'Total Score', value: 0 },
     calculateTotalScore: function() {
-        this.totalScore.value = Object.values(this.upperSection).reduce((sum, item) => sum + item.value, 0) >= 63 ? 35 : 0;
+        this.totalScore.value = 0;
         this.totalScore.value += Object.values(this.upperSection).reduce((sum, item) => sum + item.value, 0);
+        this.totalScore.value += parseInt(this.upperBonus.value);
         this.totalScore.value += Object.values(this.lowerSection).reduce((sum, item) => sum + item.value, 0);
     }
 };

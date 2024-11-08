@@ -110,7 +110,7 @@ h1 {
             tr:nth-child(even) {
                 background-color: var(--papaya-whip);
             }
-            tr:hover {
+            .score-name:hover {
                 background-color: var(--tea-green);
                 cursor: pointer;
             }
@@ -119,7 +119,13 @@ h1 {
                 border-top: 2px solid black;
                 width: 50%;
             }
-            .score-value {
+            .scorecard-columns, #total-score-container {
+                display: flex;
+                width: 100%;
+                align-items: center;
+                justify-content: center;
+            }
+            .score-value, .bonus-value, .total-value {
                 font-weight: 600;
                 font-size: 1.25rem;
                 width: 30px;
@@ -128,9 +134,14 @@ h1 {
                 border-right: 1px solid black;
                 border-left: 1px solid black;
             }
-            .score-name {
+            .bonus-name, .total-name, .bonus-value, .total-value {
+                background-color: var(--buff);
+                font-weight: 600;
+            }
+            .score-name, .bonus-name, .total-name {
                 width: 10em;
             }
+        
             .possiblePoints {
                 color:firebrick;
                 font-size: .7rem;
@@ -380,6 +391,15 @@ button:hover {
     align-content: center;
   }
 
-#instruction-score {
-    font-size: .9rem;
+.instruction {
+    margin-top: 10px;
+    border-top: 1px solid var(--buff);
+    width: 100%;
+
+}
+
+
+.points-needed {
+    font-size: .7rem;
+    color: firebrick;
 }

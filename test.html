@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./test.css">
+    <script defer src="./test.js"></script>
+    <title> Color matching memory game</title>
+</head>
+
+<body>
+    <h1>Memory Game</h1>
+    <h2> Game Rule:</h2>
+    <form id="select-color-amount">
+        <label for="color-amount">Match all the squares with the same color! Select the amount of colors:</label>
+        <select name="color-amount" id="color-amount">
+            <option value="6">6</option>
+            <option value="12">12</option>
+            <option value="18">18</option>
+        </select>
+        <button id="reset" type="submit">Reset Game</button>
+    </form>
+    <div class="tiles"></div>
+    <div class="hidden" id="winMessage">
+        <p>Congratulations! You win!</p>
+    </div>
+</body>
+
+</html>

@@ -21,7 +21,7 @@ const diceContainer = document.getElementById("dice");
 const rollsLeft = document.getElementById("rolls-left");
 const rollButton = document.getElementById("roll-button");
 const rollsDefault = document.getElementById("rolls-default");
-const  optionsModal = document.getElementById("options-modal");
+const optionsModal = document.getElementById("options-modal");
 const optionsButton = document.getElementById("options-button");
 const closeModalButton = document.querySelectorAll("#close-modal");
 const newGameButton = document.getElementById("new-game-button");
@@ -38,23 +38,24 @@ const instructionsButton = document.getElementById("instructions-button");
 const instructionGameOver = document.getElementById("instruction-game-over");
 const optionPossiblePoints = document.getElementById("toggle-possible-points");
 const collapsibeSections = document.querySelectorAll(".collapsible-section");
+const upperSectionBonus = document.getElementById("upper-section-bonus");
  
 const domStates = {
     gameStart: {
         display: [instructionStart, rollButton, rollsDefault], 
-        hidden: [instructionScore, instructionHold, instructionGameOver, rollsLeft, newGameButton, nextTurnButton, rollsLeft]},
+        hidden: [instructionScore, instructionHold, instructionGameOver, rollsLeft, nextTurnButton, rollsLeft]},
     gamePlaying: {
         display: [instructionScore, instructionHold, rollsLeft, rollButton],
         hidden: [instructionStart, instructionGameOver, rollsDefault]},
     gameOver: {
-        display: [instructionGameOver, newGameButton],
+        display: [instructionGameOver],
         hidden: [instructionStart, instructionHold, instructionScore, rollsLeft, rollButton]},
     outOfRerolls: {
         display: [instructionScore],
         hidden: [instructionStart, instructionHold, instructionGameOver, rollButton]},
     newTurn: {
         display: [rollButton, rollsDefault],
-        hidden: [instructionStart, instructionScore, instructionHold, instructionGameOver, rollsLeft, newGameButton]},
+        hidden: [instructionStart, instructionScore, instructionHold, instructionGameOver, rollsLeft]},
     openInstructions: {
         display: [instructionsModal],
         hidden: []},
@@ -184,12 +185,14 @@ function scorecardReset() {
         value.value = 0;
         value.hasBeenScored = false;
     }
+    scorecard.upperBonus.value = 0;
     scorecard.totalScore.value = 0;
 }
 
 // Scorecard rendering
 function scorecardRenderMain() {
     scorecardRenderSection(upperScorecardTable, "upperSection");
+    renderUpperSectionBonus();
     scorecardRenderSection(lowerScorecardTable, "lowerSection");
     renderTotal();
 }
@@ -244,13 +247,31 @@ function scorecardRowRender(row, field, dice) {
     }
     return row;
 }
+function renderUpperSectionBonus() {
+    const bonus = scorecard.upperBonus;
+    bonus.value = bonus.formula();
+    upperSectionBonus.innerHTML = "";
+    const row = document.createElement("tr");
+    const pointsNeeded = 63 - Object.values(scorecard.upperSection).reduce((acc, row) => acc + row.value, 0);
+    row.innerHTML = `
+        <td class="bonus-name">Bonus <span class="points-needed">(need: ${pointsNeeded})</span></td>
+        <td class="bonus-value">${bonus.value}</td>
+    `;
+    const pointNeededElement = row.querySelector(".points-needed");
+    if (pointsNeeded <= 0) {
+        pointNeededElement.classList.add("hidden");
+    } else {
+        pointNeededElement.classList.remove("hidden");
+    }
+    upperSectionBonus.appendChild(row);
+}
 function renderTotal() {
     scorecard.calculateTotalScore();
     totalScorecardTable.innerHTML = "";
     const row = document.createElement("tr");
     row.innerHTML = `
-        <td class="score-name">${scorecard.totalScore.name}</td>
-        <td class="score-value">${scorecard.totalScore.value}</td>
+        <td class="total-name">${scorecard.totalScore.name}</td>
+        <td class="total-value">${scorecard.totalScore.value}</td>
     `;
     totalScorecardTable.appendChild(row);
 }

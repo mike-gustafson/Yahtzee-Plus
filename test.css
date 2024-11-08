@@ -1,0 +1,50 @@
+
+body {
+    background: #333333;
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    color: hotpink;
+  }
+  
+  .tiles {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 48px auto;
+    width: 770px;;
+  }
+  
+  .tile {
+    height: 100px;
+    width: 100px;
+    background: #111111;
+    border: 5px solid #444444;
+    cursor: pointer;
+  }
+  
+  h1, h2, p {
+    text-align: center;
+  }
+  
+  button {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    cursor: pointer;
+  }
+  
+  .hidden {
+    display: none;
+  }
+  
+  #winMessage {
+    text-align: center;
+    color:lightblue;
+    font-size: 2em;
+    margin-top: 20px;
+  }
+  #select-color-amount {
+    text-align: center;
+    font-size: 1em;
+  
+  }
