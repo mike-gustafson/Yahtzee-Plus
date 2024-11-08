@@ -35,7 +35,8 @@ const instructionsModal = document.getElementById("instructions-modal");
 const instructionsButton = document.getElementById("instructions-button");
 const instructionGameOver = document.getElementById("instruction-game-over");
 const optionPossiblePoints = document.getElementById("toggle-possible-points");
-
+const collapsibeSections = document.querySelectorAll(".collapsible-section");
+ 
 const domStates = {
     gameStart: {
         display: [instructionStart, rollButton, rollsDefault], 
@@ -68,7 +69,20 @@ closeModalButton.addEventListener("click", () => changeDomState(domStates.closeI
 instructionsButton.addEventListener("click", () => changeDomState(domStates.openInstructions));
 optionPossiblePoints.addEventListener("click", togglePossiblePoints);
 window.addEventListener("click", (event) => {if (event.target == instructionsModal) {changeDomState(domStates.closeInstructions)}});
+collapsibeSections.forEach(section => {
+    const header = section.querySelector("h3");
+    const content = section.querySelector(".collapsible-content");
 
+    header.addEventListener("click", () => {
+        collapsibeSections.forEach(otherSection => {
+            const otherContent = otherSection.querySelector(".collapsible-content");
+            if (otherContent !== content) {
+                otherContent.classList.remove("active");
+            }
+        });
+        content.classList.toggle("active");
+    });
+});
 // Game logic
 function rollDice() {
     if (rerolls > 0) {

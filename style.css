@@ -259,7 +259,6 @@ button:hover {
     overflow: auto;
     background-color: rgba(0, 0, 0, 0.5);
 }
-
 .modal-content {
     background-color: var(--cornsilk);
     margin: 5% auto;
@@ -269,14 +268,12 @@ button:hover {
     width: 80%;
     max-width: 600px;
 }
-
 .close-button {
     color: var(--tea-green);
     float: right;
     font-size: 28px;
     font-weight: bold;
 }
-
 .close-button:hover, .close-button:focus {
     color: black;
     text-decoration: none;
@@ -330,3 +327,27 @@ button:hover {
   margin-left: 10px;
   user-select: none;
 }
+
+.collapsible-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+  }
+  .collapsible-content.active {
+    max-height: 200px; /* Adjust this value as needed for smoother animation */
+  }
+  h3 {
+    margin: .25rem;
+    cursor: pointer;
+    color: black;
+    transition: text-shadow 0.3s ease-in-out;
+  }
+  h3:hover {
+    text-shadow: 
+      0 0 5px var(--buff),
+      0 0 10px var(--buff),
+      0 0 15px var(--tea-green),
+      0 0 20px var(--tea-green),
+      0 0 30px var(--tea-green),
+      0 0 40px var(--tea-green);
+  }
