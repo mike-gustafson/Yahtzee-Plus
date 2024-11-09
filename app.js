@@ -1,15 +1,19 @@
-import * as diceDefaults from "./js/diceDefaults.js";
+import domStates from "./js/domStates.js";
 import scorecardDefault from "./js/scorecardDefault.js";
+import * as diceDefaults from "./js/diceDefaults.js";
 
-// Constants
+import initModals from "./js/initModals.js";
+import buildDomElements from "./js/buildDomElements.js";
+import createEventListeners from "./js/createEventListeners.js";
+
+// DOM elements
+const diceContainer = document.getElementById("dice");
+
+// constants
 const defaultMaxRerolls = 3;
 const scorecard = scorecardDefault;
 const defaultDice = Array(5).fill().map(() => ({ ...diceDefaults.d6Default }));
-
-const uiOptions = {
-    possiblePoints: true,
-    darkMode: false,
-}
+const uiSettings = { possiblePoints: true, darkMode: false }
 
 let dice;
 let rerolls;
@@ -17,88 +21,6 @@ let roll = [];
 let maxRerolls = defaultMaxRerolls;
 let currentDiceHaveBeenScored = false;
 
-// DOM elements
-const diceContainer = document.getElementById("dice");
-const rollsLeft = document.getElementById("rolls-left");
-const rollButton = document.getElementById("roll-button");
-const rollsDefault = document.getElementById("rolls-default");
-const optionsModal = document.getElementById("options-modal");
-const optionsButton = document.getElementById("options-button");
-const closeModalButton = document.querySelectorAll("#close-modal");
-const newGameButton = document.getElementById("new-game-button");
-const nextTurnButton = document.getElementById("next-turn-button");
-const rollsLeftValue = document.getElementById("rolls-left-value");
-const instructionHold = document.getElementById("instruction-hold");
-const instructionStart = document.getElementById("instruction-start");
-const instructionScore = document.getElementById("instruction-score");
-const upperScorecardTable = document.getElementById("upper-scorecard");
-const lowerScorecardTable = document.getElementById("lower-scorecard");
-const totalScorecardTable = document.getElementById("total-scorecard");
-const instructionsModal = document.getElementById("instructions-modal");
-const instructionsButton = document.getElementById("instructions-button");
-const instructionGameOver = document.getElementById("instruction-game-over");
-const optionDarkMode = document.getElementById("toggle-dark-mode");
-const optionPossiblePoints = document.getElementById("toggle-possible-points");
-const collapsibeSections = document.querySelectorAll(".collapsible-section");
-const upperSectionBonus = document.getElementById("upper-section-bonus"); 
-
-const domStates = {
-    gameStart: {
-        display: [instructionStart, rollButton, rollsDefault], 
-        hidden: [instructionScore, instructionHold, instructionGameOver, rollsLeft, nextTurnButton, rollsLeft]},
-    gamePlaying: {
-        display: [instructionScore, instructionHold, rollsLeft, rollButton],
-        hidden: [instructionStart, instructionGameOver, rollsDefault]},
-    gameOver: {
-        display: [instructionGameOver],
-        hidden: [instructionStart, instructionHold, instructionScore, rollsLeft, rollButton]},
-    outOfRerolls: {
-        display: [instructionScore],
-        hidden: [instructionStart, instructionHold, instructionGameOver, rollButton]},
-    newTurn: {
-        display: [rollButton, rollsDefault],
-        hidden: [instructionStart, instructionScore, instructionHold, instructionGameOver, rollsLeft]},
-    openInstructions: {
-        display: [instructionsModal],
-        hidden: []},
-    closeModal: {
-        display: [],
-        hidden: [instructionsModal, optionsModal]},
-    openOptions: {
-        display: [optionsModal],
-        hidden: []},
-}
-
-// Event listeners
-rollButton.addEventListener('click', rollDice);
-newGameButton.addEventListener('click', init);
-nextTurnButton.addEventListener('click', nextTurn);
-optionPossiblePoints.addEventListener("click", togglePossiblePoints);
-optionDarkMode.addEventListener("click", toggleDarkMode);
-
-optionsButton.addEventListener('click', () => changeDomState(domStates.openOptions));
-instructionsButton.addEventListener("click", () => changeDomState(domStates.openInstructions));
-closeModalButton.forEach(button => button.addEventListener('click', () => changeDomState(domStates.closeModal)));
-window.addEventListener("click", (event) => {if (event.target == instructionsModal) {changeDomState(domStates.closeInstructions)}});
-collapsibeSections.forEach(section => {
-    const header = section.querySelector("h3");
-    const content = section.querySelector(".collapsible-content");
-
-    header.addEventListener("click", () => {
-        collapsibeSections.forEach(otherSection => {
-            const otherContent = otherSection.querySelector(".collapsible-content");
-            if (otherContent !== content) {
-                otherContent.classList.remove("active");
-                          otherSection.querySelector(".collapsible-content").classList.remove("active");
-
-            }
-        });
-        content.classList.toggle("active");
-        section.classList.toggle("expanded");
-    });
-});
-
-// Game logic
 function rollDice() {
     if (rerolls > 0) {
         currentDiceHaveBeenScored = false;
@@ -199,6 +121,8 @@ function scorecardRenderMain() {
     scorecardRenderSection(lowerScorecardTable, "lowerSection");
     renderTotal();
 }
+
+
 function scorecardRenderSection(tableName, sectionName) {
     tableName.innerHTML = "";
     for (const field of Object.values(scorecard[sectionName])) {
@@ -241,11 +165,11 @@ function scorecardRowRender(row, field, dice) {
             <td class="score-name">${field.name}<span class="possiblePoints hidden"> ${field.possiblePoints.scorePreview(dice)}</span></td>
             <td class="score-value">${field.value}</td>`;    
         const possiblePoints = row.querySelector(".possiblePoints");
-        if (roll.length > 0 && row.classList.contains("possible") && uiOptions.possiblePoints) {
-            possiblePoints.classList.remove("hidden");
+        if (roll.length > 0 && row.classList.contains("possible") && uiSettings.possiblePoints) {
+        possiblePoints.classList.remove("hidden");
         }
-        if (field.possiblePoints.scorePreview(dice) === 0 && !uiOptions.possiblePoints) {
-            possiblePoints.classList.add("hidden");
+        if (field.possiblePoints.scorePreview(dice) === 0 && !uiSettings.possiblePoints) {
+        possiblePoints.classList.add("hidden");
         }
     }
     return row;
@@ -291,41 +215,49 @@ function init() {
 }
 
 // Change the state of the DOM elements
-function changeDomState(elements) {
-    elements.display.forEach(element => {
-        if (element) element.classList.remove("hidden");
-    });
-    elements.hidden.forEach(element => {
-        if (element) element.classList.add("hidden");
-    });
+function changeDomState(state) {
+    const { display, hidden } = state
+    display.forEach(id => document.querySelector(id).classList.remove("hidden"));
+    hidden.forEach(id => document.querySelector(id).classList.add("hidden"));
 }
 
-// Options functions
-function togglePossiblePoints() {
-    uiOptions.possiblePoints = !uiOptions.possiblePoints;
-    if (uiOptions.possiblePoints) {
-        optionPossiblePoints.classList.add("active");
-    } else {
-        optionPossiblePoints.classList.remove("active");
-    }
-    scorecardRenderMain();
-}
-
-function toggleDarkMode() {
-    uiOptions.darkMode = !uiOptions.darkMode;
-    if (!uiOptions.darkMode) {
-        document.querySelectorAll(".dark").forEach(Node => Node.classList.remove("dark"));
-        optionDarkMode.classList.add("active");
-    } else {
-        document.querySelectorAll('*').forEach(Node => Node.classList.add("dark"));
-        optionDarkMode.classList.remove("active");
-    }
-}
 
 // Game over
 function gameOver() {
     changeDomState(domStates.gameOver);
 }
 
+
+
+
+// settings functions
+function togglePossiblePoints() {
+    uiSettings.possiblePoints = !uiSettings.possiblePoints;
+if (uiSettings.possiblePoints) {
+    settingPossiblePoints.classList.add("active");
+    } else {
+        settingPossiblePoints.classList.remove("active");
+    }
+    window.scorecardRenderMain();
+}
+
+function toggleDarkMode() {
+    uiSettings.darkMode = !uiSettings.darkMode;
+if (!uiSettings.darkMode) {
+    document.querySelectorAll(".dark").forEach(Node => Node.classList.remove("dark"));
+        settingDarkMode.classList.add("active");
+    } else {
+        document.querySelectorAll('*').forEach(Node => Node.classList.add("dark"));
+        settingDarkMode.classList.remove("active");
+    }
+}
+
 // start the game on page load
-document.addEventListener("DOMContentLoaded", init);
+document.addEventListener("DOMContentLoaded", async () => {
+    await initModals();
+    buildDomElements();
+    createEventListeners();
+    init();
+})
+
+export { rollDice, nextTurn, init, toggleDarkMode, togglePossiblePoints, changeDomState };

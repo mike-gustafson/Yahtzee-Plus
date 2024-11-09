@@ -446,7 +446,7 @@ button:hover.dark {
     transform: rotate(90deg);
   }
 
-  .option {
+  .setting {
     display: flex;
     border: 1px solid var(--buff);
     border-radius: 8px;
@@ -454,19 +454,19 @@ button:hover.dark {
     padding: 0;
     margin: 0;
   }
-    .option.dark {
+    .setting.dark {
         border: 1px solid var(--buff-dark);
     }
-  .option>.toggle-container {
+  .setting>.toggle-container {
     width: fit-content;
   }
-  .option>p {
+  .setting>p {
     border-left: 1px solid var(--buff);
     height: fill-available;
     margin: 0;
     align-content: center;
   }
-    .option>p.dark {
+    .setting>p.dark {
         border-left: 1px solid var(--buff-dark);
     }
 

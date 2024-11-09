@@ -25,15 +25,15 @@
         </button>
         <button id="next-turn-button">Next Turn</button>
 
-        <span class="instruction" id="instruction-hold">Click on the dice you want to keep.</span>
-        <span class="instruction" id="instruction-start">Click Roll to start the game.</span>
-        <span class="instruction" id="instruction-score">Select a category on scorecard<br>before you can start a new
+        <span class="instruction" id="instructions-hold">Click on the dice you want to keep.</span>
+        <span class="instruction" id="instructions-start">Click Roll to start the game.</span>
+        <span class="instruction" id="instructions-score">Select a category on scorecard<br>before you can start a new
           turn</span>
-        <span class="instruction" id="instruction-game-over">Game Over!</span>
+        <span class="instruction" id="instructions-game-over">Game Over!</span>
 
         <div id="modal-buttons">
           <button id="instructions-button" class="modal-open-button">Instructions</button>
-          <button id="options-button" class="modal-open-button">Options</button>
+          <button id="settings-button" class="modal-open-button">Settings</button>
           <button id="new-game-button" class="modal-open-button">New Game</button>
         </div>
       </div>
@@ -67,91 +67,8 @@
     </div>
   </div>
 
-  <div id="instructions-modal" class="modal hidden">
-    <div class="modal-content">
-      <span id="close-modal" class="close-button">&times;</span>
-      <h2>How to Play Yahtzee</h2>
-
-      <div class="collapsible-section">
-        <h3>Objective <span class="arrow">></span></h3>
-        <div class="collapsible-content">
-          <p>
-            Score the most points by rolling five dice to make specific
-            combinations over multiple turns.
-          </p>
-        </div>
-      </div>
-
-      <div class="collapsible-section">
-        <h3>Game Rules <span class="arrow">></span></h3>
-        <div class="collapsible-content">
-          <ul>
-            <li>On each turn, you can roll the dice up to three times.</li>
-            <li>After each roll, you can click on individual dice to "hold" them.</li>
-            <li>Select a scoring category on the scorecard once satisfied with your roll.</li>
-            <li>Each category can only be used once per game.</li>
-            <li>When both the Upper and Lower scorecard sections are completed, the game ends.</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="collapsible-section">
-        <h3>Scoring <span class="arrow">></span></h3>
-        <div class="collapsible-content">
-          <p>
-            Score points based on specific combinations, divided into Upper and Lower sections:
-          </p>
-          <ul>
-            <li><strong>Upper Section:</strong> Score points based on dice showing numbers 1 to 6.</li>
-            <li><strong>Lower Section:</strong> Score points for combinations like Full House, Small Straight, etc.</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="collapsible-section">
-        <h3>How to Play <span class="arrow">></span></h3>
-        <div class="collapsible-content">
-          <ul>
-            <li>Click "Roll" to start your turn.</li>
-            <li>Click on dice to hold them for the next roll, or roll again for a better combination.</li>
-            <li>Click on a scoring category in the scorecard to save your score and end the turn.</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="collapsible-section">
-        <h3>Controls <span class="arrow">></span></h3>
-        <div class="collapsible-content">
-          <ul>
-            <li><strong>Roll:</strong> Starts a roll or re-roll of the dice.</li>
-            <li><strong>Next Turn:</strong> Advances to the next turn after scoring.</li>
-            <li><strong>New Game:</strong> Resets the game to start over.</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div id="options-modal" class="modal hidden">
-    <div class="modal-content">
-      <span id="close-modal" class="close-button">&times;</span>
-      <h2>Game Options</h2>
-      <div class="option">
-        <div class="toggle-container">
-          <div class="toggle active" id="toggle-possible-points"></div>
-          <span class="toggle-label">Preview Points</span>
-        </div>
-        <p>Show possible points for each category on the scorecard.</p>
-      </div>
-    <div class="option">
-      <div class="toggle-container">
-        <div class="toggle active" id="toggle-dark-mode"></div>
-        <span class="toggle-label">Dark Mode</span>
-      </div>
-      <p>Toggles Dark Mode Colors</p>
-    </div>
-  </div>
-</div>
+  <div id="instructions-modal" class="modal hidden"></div>
+  <div id="settings-modal" class="modal hidden"></div>
   </div>
 
 </body>
