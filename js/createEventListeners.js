@@ -1,4 +1,4 @@
-import { rollDice, nextTurn, init, changeDomState } from "../app.js";
+import { rollDice, nextTurn, init, changeDomState, toggleDarkMode, togglePossiblePoints } from "../app.js";
 import domStates from "./domStates.js";
 
 function createEventListeners() {    

@@ -221,14 +221,10 @@ function changeDomState(state) {
     hidden.forEach(id => document.querySelector(id).classList.add("hidden"));
 }
 
-
 // Game over
 function gameOver() {
     changeDomState(domStates.gameOver);
 }
-
-
-
 
 // settings functions
 function togglePossiblePoints() {
@@ -243,8 +239,8 @@ if (uiSettings.possiblePoints) {
 
 function toggleDarkMode() {
     uiSettings.darkMode = !uiSettings.darkMode;
-if (!uiSettings.darkMode) {
-    document.querySelectorAll(".dark").forEach(Node => Node.classList.remove("dark"));
+    if (!uiSettings.darkMode) {
+        document.querySelectorAll(".dark").forEach(Node => Node.classList.remove("dark"));
         settingDarkMode.classList.add("active");
     } else {
         document.querySelectorAll('*').forEach(Node => Node.classList.add("dark"));
