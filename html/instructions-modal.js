@@ -1,3 +1,4 @@
+const instructionsModal = `
 <div class="modal-content">
     <span id="close-instructions-modal" class="close-button">&times;</span>
     <h2>How to Play Yahtzee</h2>
@@ -60,3 +61,6 @@
       </div>
     </div>
   </div>
+`
+
+export default instructionsModal;

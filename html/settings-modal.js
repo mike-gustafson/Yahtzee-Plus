@@ -1,3 +1,4 @@
+const settingsModal = `
 <div class="modal-content">
     <span id="close-settings-modal" class="close-button">&times;</span>
     <h2>Game settings</h2>
@@ -16,3 +17,6 @@
     <p>Toggles Dark Mode Colors</p>
   </div>
 </div>
+`;
+
+export default settingsModal;
