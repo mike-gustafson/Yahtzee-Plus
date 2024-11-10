@@ -1,4 +1,4 @@
-import { rollDice, nextTurn, init, changeDomState, toggleDarkMode, togglePossiblePoints } from "../app.js";
+import { rollDice, nextTurn, init, changeDomState } from "../app.js";
 import domStates from "./domStates.js";
 
 function createEventListeners() {    
@@ -7,10 +7,6 @@ function createEventListeners() {
     nextTurnButton.addEventListener('click', () => nextTurn());
     settingsButton.addEventListener('click', () => changeDomState(domStates.openSettings));
     instructionsButton.addEventListener("click", () => changeDomState(domStates.openInstructions));
-    closeInstructionsButton.addEventListener("click", () => changeDomState(domStates.closeModal));
-    closeSettingsButton.addEventListener("click", () => changeDomState(domStates.closeModal));
-    settingDarkMode.addEventListener("click", () => toggleDarkMode());
-    settingPossiblePoints.addEventListener("click", () => togglePossiblePoints());
     window.addEventListener("click", (event) => {if (event.target == instructionsModal) {changeDomState(domStates.closeModal)}});
     window.addEventListener("click", (event) => {if (event.target == settingsModal) {changeDomState(domStates.closeModal)}});
     const collapsibeSections = document.querySelectorAll(".collapsible-section");

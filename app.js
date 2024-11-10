@@ -1,11 +1,10 @@
 import domStates from "./js/domStates.js";
 import scorecardDefault from "./js/scorecardDefault.js";
 import * as diceDefaults from "./js/diceDefaults.js";
-
 import initModals from "./js/initModals.js";
 import buildDomElements from "./js/buildDomElements.js";
 import createEventListeners from "./js/createEventListeners.js";
-
+import settings from "./data/settings.js";
 // DOM elements
 const diceContainer = document.getElementById("dice");
 
@@ -165,10 +164,10 @@ function scorecardRowRender(row, field, dice) {
             <td class="score-name">${field.name}<span class="possiblePoints hidden"> ${field.possiblePoints.scorePreview(dice)}</span></td>
             <td class="score-value">${field.value}</td>`;    
         const possiblePoints = row.querySelector(".possiblePoints");
-        if (roll.length > 0 && row.classList.contains("possible") && uiSettings.possiblePoints) {
+        if (roll.length > 0 && row.classList.contains("possible") && settings.possiblePoints.value) {
         possiblePoints.classList.remove("hidden");
         }
-        if (field.possiblePoints.scorePreview(dice) === 0 && !uiSettings.possiblePoints) {
+        if (field.possiblePoints.scorePreview(dice) === 0 && !settings.possiblePoints.value) {
         possiblePoints.classList.add("hidden");
         }
     }
@@ -226,27 +225,7 @@ function gameOver() {
     changeDomState(domStates.gameOver);
 }
 
-// settings functions
-function togglePossiblePoints() {
-    uiSettings.possiblePoints = !uiSettings.possiblePoints;
-if (uiSettings.possiblePoints) {
-    settingPossiblePoints.classList.add("active");
-    } else {
-        settingPossiblePoints.classList.remove("active");
-    }
-    window.scorecardRenderMain();
-}
 
-function toggleDarkMode() {
-    uiSettings.darkMode = !uiSettings.darkMode;
-    if (!uiSettings.darkMode) {
-        document.querySelectorAll(".dark").forEach(Node => Node.classList.remove("dark"));
-        settingDarkMode.classList.add("active");
-    } else {
-        document.querySelectorAll('*').forEach(Node => Node.classList.add("dark"));
-        settingDarkMode.classList.remove("active");
-    }
-}
 
 // start the game on page load
 document.addEventListener("DOMContentLoaded", async () => {
@@ -256,4 +235,4 @@ document.addEventListener("DOMContentLoaded", async () => {
     init();
 })
 
-export { rollDice, nextTurn, init, toggleDarkMode, togglePossiblePoints, changeDomState };
+export { rollDice, nextTurn, init, changeDomState };

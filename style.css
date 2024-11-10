@@ -256,6 +256,10 @@ h1.dark {
 .scored:nth-child(even):hover {
     background-color: var(--papaya-whip);
 }
+.scored:nth-child(event).dark:hover {
+    background-color: var(--cornsilk-dark);
+}
+
 
 button {
     background-color: var(--tea-green);
@@ -339,6 +343,29 @@ button:hover.dark {
     display: block;
 }
 
+
+.setting {
+    display: flex;
+    border: 1px solid var(--buff);
+    border-radius: 8px;
+    width: fill-available;
+    padding: 0;
+    margin: 0;
+}
+.setting.dark {
+    border: 1px solid var(--buff-dark);
+}
+  .setting>p {
+    border-left: 1px solid var(--buff);
+    height: fill-available;
+    margin: 0;
+    align-content: center;
+    color: var(--buff);
+  }
+  .setting>p.dark {
+      border-left: 1px solid var(--buff-dark);
+  }
+
 .toggle-container {
   display: flex;
   flex-direction: column;
@@ -346,49 +373,51 @@ button:hover.dark {
   font-family: Arial, sans-serif;
   font-size: .8rem;
   font-weight: 600;
-  color: #333;
+  color: var(--buff);
   margin: 0.5em 0;
   padding: 5px;
 }
-.toggle {
-  position: relative;
-  width: 50px;
-  height: 26px;
-  border-radius: 50px;
-  background-color: var(--beige);
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-.toggle.dark {
-  background-color: var(--beige-dark);
-}
-.toggle::before {
-  content: '';
-  position: absolute;
-  top: 3px;
-  left: 3px;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background-color: var(--buff);
-  transition: transform 0.3s ease;
-}
-.toggle::before.dark {
-  background-color: var(--buff-dark);
-}
-.toggle.active {
-  background-color: var(--tea-green);
-}
-.toggle.active.dark {
-  background-color: var(--tea-green-dark);
-}
-.toggle.active::before {
-  transform: translateX(24px);
-}
-.toggle-label {
-  margin-left: 10px;
-  user-select: none;
-}
+    .toggle {
+      position: relative;
+      width: 50px;
+      height: 26px;
+      border-radius: 50px;
+      background-color: var(--beige);
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    .toggle.dark {
+      background-color: var(--beige-dark);
+    }
+    .toggle::before {
+      content: '';
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background-color: var(--buff);
+      transition: transform 0.3s ease;
+    }
+    .toggle::before.dark {
+      background-color: var(--buff-dark);
+    }
+    .toggle.active {
+      background-color: var(--tea-green);
+    }
+    .toggle.active.dark {
+      background-color: var(--tea-green-dark);
+    }
+    .toggle.active::before {
+      transform: translateX(24px);
+    }
+    .toggle-label {
+      margin-left: 10px;
+      user-select: none;
+      color: var(--buff);
+    }
+
 
 .collapsible-content {
     max-height: 0;
@@ -446,30 +475,7 @@ button:hover.dark {
     transform: rotate(90deg);
   }
 
-  .setting {
-    display: flex;
-    border: 1px solid var(--buff);
-    border-radius: 8px;
-    width: fill-available;
-    padding: 0;
-    margin: 0;
-  }
-    .setting.dark {
-        border: 1px solid var(--buff-dark);
-    }
-  .setting>.toggle-container {
-    width: fit-content;
-  }
-  .setting>p {
-    border-left: 1px solid var(--buff);
-    height: fill-available;
-    margin: 0;
-    align-content: center;
-  }
-    .setting>p.dark {
-        border-left: 1px solid var(--buff-dark);
-    }
-
+    
 .instruction {
     margin-top: 10px;
     border-top: 1px solid var(--buff);
