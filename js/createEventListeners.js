@@ -1,5 +1,6 @@
 import { rollDice, nextTurn, init, changeDomState } from "../app.js";
 import domStates from "./domStates.js";
+import settings from "../data/settings.js";
 
 function createEventListeners() {    
     rollButton.addEventListener('click', () => rollDice());
@@ -9,6 +10,17 @@ function createEventListeners() {
     instructionsButton.addEventListener("click", () => changeDomState(domStates.openInstructions));
     window.addEventListener("click", (event) => {if (event.target == instructionsModal) {changeDomState(domStates.closeModal)}});
     window.addEventListener("click", (event) => {if (event.target == settingsModal) {changeDomState(domStates.closeModal)}});
+
+    // set eventListeners for settings toggles
+    for (const setting in settings) {
+        const toggle = document.getElementById(settings[setting].toggleId);
+
+        if (toggle && settings[setting].toggleAction) {
+            toggle.addEventListener("click", settings[setting].toggleAction);
+        }
+    }
+
+    // set eventListeners for collapsible sections
     const collapsibeSections = document.querySelectorAll(".collapsible-section");
     collapsibeSections.forEach(section => {
         const header = section.querySelector("h3");
@@ -26,6 +38,7 @@ function createEventListeners() {
             section.classList.toggle("expanded");
         });
     });
+
 }
 
 export default createEventListeners;

@@ -9,7 +9,6 @@ function buildSettingsModal() {
 
   for (const setting in settings) {
     const defaultStatus = settings[setting].defaultValue ? "active" : "";
-
     modalContent += `
       <div class="setting">
         <div class="toggle-container" data-action="${setting}">

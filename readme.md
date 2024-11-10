@@ -36,3 +36,29 @@ ChatGPT: datasets such as various dice configurations and a standard Yahtzee sco
 - **Customization Options**: Allow players to select unique modifiers from their collection for each game.
 
 ---
+
+### File Tree
+
+if there's a description, the file is finalized for presentation
+
+```
+.
+├── app.js
+├── data
+│   └── settings.js                 js object with all settings and their functions, used to render "settings" modal content in ./modals/settings-modal.js
+├── modals                          
+│   ├── instructions-modal.js       constructs and returns instructionsModal to initModals function in ./js/initModals.js
+│   └── settings-modal.js           constructs and returns settingsModal to initModals function in ./js/initModals.js, uses data from ./data/settings.js
+├── js
+│   ├── buildDomElements.js         
+│   ├── createEventListeners.js
+│   ├── diceDefaults.js
+│   ├── domElements.js
+│   ├── domStates.js
+│   ├── initModals.js
+│   └── scorecardDefault.js
+├── index.html
+├── readme.md
+├── screenshot.jpg
+└── style.css
+```
