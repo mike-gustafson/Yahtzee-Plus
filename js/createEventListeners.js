@@ -1,10 +1,10 @@
-import { rollDice, nextTurn, init, changeDomState } from "../app.js";
+import { rollDice, nextTurn, initGamePlay, changeDomState } from "../app.js";
 import domStates from "../data/domStates.js";
 import settings from "../data/settings.js";
 
 function createEventListeners() {    
     rollButton.addEventListener('click', () => rollDice());
-    newGameButton.addEventListener('click', () => init());
+    newGameButton.addEventListener('click', () => initGamePlay());
     nextTurnButton.addEventListener('click', () => nextTurn());
     settingsButton.addEventListener('click', () => changeDomState(domStates.openSettings));
     instructionsButton.addEventListener("click", () => changeDomState(domStates.openInstructions));

@@ -226,4 +226,4 @@ document.addEventListener("DOMContentLoaded", async () => {
     initGamePlay();
 })
 
-export { rollDice, nextTurn, init, changeDomState };
+export { rollDice, nextTurn, initGamePlay, changeDomState };
