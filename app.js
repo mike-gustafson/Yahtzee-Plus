@@ -1,18 +1,16 @@
-import domStates from "./js/domStates.js";
-import scorecardDefault from "./js/scorecardDefault.js";
-import * as diceDefaults from "./js/diceDefaults.js";
-import initModals from "./js/initModals.js";
-import buildDomElements from "./js/buildDomElements.js";
-import createEventListeners from "./js/createEventListeners.js";
 import settings from "./data/settings.js";
-// DOM elements
-const diceContainer = document.getElementById("dice");
+import scorecard from "./data/scorecard.js";
+import domStates from "./data/domStates.js";
+import * as diceTypes from "./data/dice.js";
+
+import initModals from "./js/initModals.js";
+import changeDomState from "./js/changeDomState.js";
+import mapDomElements from "./js/mapDomElements.js";
+import createEventListeners from "./js/createEventListeners.js";
 
 // constants
 const defaultMaxRerolls = 3;
-const scorecard = scorecardDefault;
-const defaultDice = Array(5).fill().map(() => ({ ...diceDefaults.d6Default }));
-const uiSettings = { possiblePoints: true, darkMode: false }
+const defaultDice = Array(5).fill().map(() => ({ ...diceTypes.d6 }));
 
 let dice;
 let rerolls;
@@ -203,7 +201,7 @@ function renderTotal() {
 }
 
 // Game initialization
-function init() {
+function initGamePlay() {
     dice = [...defaultDice];
     rerolls = maxRerolls;
     rollsLeftValue.innerText = rerolls;
@@ -211,13 +209,6 @@ function init() {
     scorecardReset();
     renderDice();
     scorecardRenderMain()
-}
-
-// Change the state of the DOM elements
-function changeDomState(state) {
-    const { display, hidden } = state
-    display.forEach(id => document.querySelector(id).classList.remove("hidden"));
-    hidden.forEach(id => document.querySelector(id).classList.add("hidden"));
 }
 
 // Game over
@@ -230,9 +221,9 @@ function gameOver() {
 // start the game on page load
 document.addEventListener("DOMContentLoaded", async () => {
     await initModals();
-    buildDomElements();
+    mapDomElements();
     createEventListeners();
-    init();
+    initGamePlay();
 })
 
 export { rollDice, nextTurn, init, changeDomState };

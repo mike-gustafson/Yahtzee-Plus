@@ -1,6 +1,6 @@
 # 🎲 Yahtzee Plus 🎲
 
-<img src="screenshot.jpg" alt="Screenshot of game" width="300"/>
+<img src="./assets/screenshot.jpg" alt="Screenshot of game" width="300"/>
 
 ## Your Game’s Name: **Yahtzee Plus**
 
@@ -43,22 +43,24 @@ if there's a description, the file is finalized for presentation
 
 ```
 .
-├── app.js
+├── assets
+│   ├── screeenshot.jpg             screenshot of webpage, used in readme
 ├── data
-│   └── settings.js                 js object with all settings and their functions, used to render "settings" modal content in ./modals/settings-modal.js
+│   ├── dice.js                     object with various types of dice
+│   ├── domElements.js              an object of exiting DOM elements, used to create global references. "name" name and "id" is the id of the element
+│   ├── domStates.js                object of various DOM states with display/hidden attributes.  Used to easily trigger viewable states via domState function
+│   ├── instructions.js             object with instructions, used to render "instructions" modal in ./modals.settings-modal.js
+│   └── settings.js                 object with settings, used to render "settings" modal in ./modals/settings-modal.js
+├── js
+│   ├── createEventListeners.js     set up most of the event listeners for the game.
+│   ├── initModals.js
+│   ├── mapDomElements.js           function to map DOM elements to global references for use in the game
+│   └── scorecardDefault.js
 ├── modals                          
 │   ├── instructions-modal.js       constructs and returns instructionsModal to initModals function in ./js/initModals.js
 │   └── settings-modal.js           constructs and returns settingsModal to initModals function in ./js/initModals.js, uses data from ./data/settings.js
-├── js
-│   ├── buildDomElements.js         
-│   ├── createEventListeners.js
-│   ├── diceDefaults.js
-│   ├── domElements.js
-│   ├── domStates.js
-│   ├── initModals.js
-│   └── scorecardDefault.js
-├── index.html
-├── readme.md
-├── screenshot.jpg
-└── style.css
+├── app.js                          primary JavaScript file
+├── index.html                      primary HTML file
+├── readme.md                       readme file for project
+└── style.css                       primary CSS file
 ```

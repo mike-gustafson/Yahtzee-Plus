@@ -1,4 +1,3 @@
-
 const domElements = {
     buttons: [
         {name: 'rollButton', id: 'roll-button'},
@@ -32,6 +31,9 @@ const domElements = {
         {name: 'lowerScorecardTable', id: 'lower-scorecard'},
         {name: 'totalScorecardTable', id: 'total-scorecard'},
         {name: 'upperSectionBonus', id: 'upper-section-bonus'}
+    ],
+    containers: [
+        {name: 'diceContainer', id: 'dice'}
     ],
 }
 

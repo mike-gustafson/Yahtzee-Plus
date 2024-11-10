@@ -1,5 +1,5 @@
 import { rollDice, nextTurn, init, changeDomState } from "../app.js";
-import domStates from "./domStates.js";
+import domStates from "../data/domStates.js";
 import settings from "../data/settings.js";
 
 function createEventListeners() {    
@@ -11,7 +11,7 @@ function createEventListeners() {
     window.addEventListener("click", (event) => {if (event.target == instructionsModal) {changeDomState(domStates.closeModal)}});
     window.addEventListener("click", (event) => {if (event.target == settingsModal) {changeDomState(domStates.closeModal)}});
 
-    // set eventListeners for settings toggles
+    // set eventListeners for settings toggles in settings modal
     for (const setting in settings) {
         const toggle = document.getElementById(settings[setting].toggleId);
 
@@ -20,7 +20,7 @@ function createEventListeners() {
         }
     }
 
-    // set eventListeners for collapsible sections
+    // set eventListeners for collapsible sections in instructions modal
     const collapsibeSections = document.querySelectorAll(".collapsible-section");
     collapsibeSections.forEach(section => {
         const header = section.querySelector("h3");

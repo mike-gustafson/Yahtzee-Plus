@@ -338,6 +338,4 @@ const defaultScorecard = {
     }
 };
 
-
 export default defaultScorecard;
-
