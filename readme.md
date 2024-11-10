@@ -39,7 +39,6 @@ ChatGPT: datasets such as various dice configurations and a standard Yahtzee sco
 
 ### File Tree
 
-if there's a description, the file is finalized for presentation
 
 ```
 .
@@ -50,12 +49,12 @@ if there's a description, the file is finalized for presentation
 │   ├── domElements.js              an object of exiting DOM elements, used to create global references. "name" name and "id" is the id of the element
 │   ├── domStates.js                object of various DOM states with display/hidden attributes.  Used to easily trigger viewable states via domState function
 │   ├── instructions.js             object with instructions, used to render "instructions" modal in ./modals.settings-modal.js
+│   └── scorecard.js                object with scorecard.  includes all functions to calculate scores
 │   └── settings.js                 object with settings, used to render "settings" modal in ./modals/settings-modal.js
 ├── js
 │   ├── createEventListeners.js     set up most of the event listeners for the game.
-│   ├── initModals.js
+│   ├── initModals.js               contains async functions to create and attach modals using files in ./modals
 │   ├── mapDomElements.js           function to map DOM elements to global references for use in the game
-│   └── scorecardDefault.js
 ├── modals                          
 │   ├── instructions-modal.js       constructs and returns instructionsModal to initModals function in ./js/initModals.js
 │   └── settings-modal.js           constructs and returns settingsModal to initModals function in ./js/initModals.js, uses data from ./data/settings.js
