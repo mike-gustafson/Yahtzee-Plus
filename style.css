@@ -475,7 +475,6 @@ button:hover.dark {
     transform: rotate(90deg);
   }
 
-    
 .instruction {
     margin-top: 10px;
     border-top: 1px solid var(--buff);
@@ -484,7 +483,6 @@ button:hover.dark {
 .instruction.dark {
     border-top: 1px solid var(--buff-dark);
 }
-
 
 .points-needed {
     font-size: .7rem;
